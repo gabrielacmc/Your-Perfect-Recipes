@@ -56,7 +56,8 @@ class Recipes extends React.Component {
       API.saveRecipes({
         name: this.state.name,
         ingredients: this.state.ingredients,
-        description: this.state.description
+        description: this.state.description,
+        sharable: true
       })
         .then(res => this.loadRecipes())
         .catch(err => console.log(err));
