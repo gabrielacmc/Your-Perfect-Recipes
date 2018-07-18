@@ -1,20 +1,23 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Recipes from "./pages/Recipes";
-import Detail from "./pages/Detail";
-import NoMatch from "./pages/NoMatch";
+// import Recipes from "./pages/Recipes";
+// import Detail from "./pages/Detail";
+// import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
+import Jumbotron from "./components/Jumbotron";
+
 
 const App = () =>
   <Router>
     <div>
       <Nav />
-      <Switch>
+      <Jumbotron />
+      {/* <Switch>
         <Route exact path="/" component={Recipes} />
         <Route exact path="/recipes" component={Recipes} />
         <Route exact path="/recipes/:id" component={Detail} />
         <Route component={NoMatch} />
-      </Switch>
+      </Switch> */}
     </div>
   </Router>;
 

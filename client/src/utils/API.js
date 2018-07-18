@@ -14,7 +14,7 @@ export default {
     return axios.post("/api/recipes", recipeData);
   },
   // Gets the book with the given id
-  getRecipes: function (id) {
+  getRecipesID: function (id) {
     return axios.get("/api/recipes/" + id);
   },
   patchRecipes: function (id, recipeData) {
