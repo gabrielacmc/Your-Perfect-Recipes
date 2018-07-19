@@ -12,12 +12,12 @@ const App = () =>
     <div>
       <Nav />
       <Jumbotron />
-      {/* <Switch>
-        <Route exact path="/" component={Recipes} />
+      <Switch>
+        {/* <Route exact path="/" component={Recipes} />
         <Route exact path="/recipes" component={Recipes} />
         <Route exact path="/recipes/:id" component={Detail} />
-        <Route component={NoMatch} />
-      </Switch> */}
+        <Route component={NoMatch} /> */}
+      </Switch>
     </div>
   </Router>;
 

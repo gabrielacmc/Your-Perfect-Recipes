@@ -3,9 +3,9 @@ import React from "react";
 
 const Nav = () =>
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    {/* <a class="navbar-brand" href="#"> */}
-      {/* <img src="../../client/public/hat.ico" width="30" height="30"
-        class="d-inline-block align-top" alt=""> Your Favorite Recipes!</img></a> */}
+    <a class="navbar-brand" href="#">
+      <img src="/hat.ico" width="30" height="30"
+        class="d-inline-block align-top" alt=""/>  Your Perfect Recipes!</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
         aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
