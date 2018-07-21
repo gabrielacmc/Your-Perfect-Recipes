@@ -1,5 +1,7 @@
 import React from "react";
-import Jumbotron from "../../components/Jumbotron";
+// import Jumbotron from "../../components/Jumbotron";
+import Card from "../../components/Card";
+import Wrapper from "../../components/Wrapper";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -13,16 +15,16 @@ class EdamamSearch extends React.Component {
     this.state = {
       recipeResults: [],
       queryString: "",
-      recipeName: "",
-      image: "",
-      recipeLink: ""
+      recipeName: [],
+      image: [],
+      recipeLink: []
     };
   }
 
   // When the component mounts, load featured recipe
-  componentDidMount() {
-    this.loadRecipes();
-  }
+  // componentDidMount() {
+  //   this.loadEdamamRecipes();
+  // }
 
   // Loads FEATURED RECIPE ******* need to fix
   // loadRecipes = () => {
@@ -33,26 +35,37 @@ class EdamamSearch extends React.Component {
   //     .catch(err => console.log(err));
   // };
 
-    // Searches recipes using querystring
-    searchEdamam = () => {
-      API.searchRecipes()
+    // Searches recipes using queryString
+    loadEdamamRecipes = (queryString) => {
+      API.searchEdamam(queryString)
         .then(res =>
-          this.setState({ receipeResults: res.data, name: "", ingredients: "", description: "", origin:"", labels:""  })
+          this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
         )
         .catch(err => console.log(err));
+
     };
+
+  // Handles updating component state when the user types into the input field
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
 
   // When the form is submitted, use the API.searchRecipes method to get the recipe data from Edamam
   // Then reload recipes from the database
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.queryString) {
-      API.searchRecipes({
-        name: this.state.recipeName,
-        image: this.state.image,
-        link: this.state.recipeLink
-      })
-        .then(res => this.loadRecipes())
+      console.log(this.state.queryString);
+      API.searchEdamam(this.state.queryString)
+      //   {
+      //   name: this.state.recipeName,
+      //   image: this.state.image,
+      //   link: this.state.recipeLink
+      // })
+        .then(res => this.loadEdamamRecipes(this.state.queryString))
         .catch(err => console.log(err));
     }
   };
@@ -62,14 +75,14 @@ class EdamamSearch extends React.Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Jumbotron>
-              <h1>Search for a Recipe!</h1>
-            </Jumbotron>
+            {/* <Jumbotron> */}
+              <h1>Search</h1>
+            {/* </Jumbotron> */}
             <form>
               <Input
                 value={this.state.queryString}
                 onChange={this.handleInputChange}
-                name="query"
+                name="queryString"
                 placeholder="Search"
               />
               <FormBtn
@@ -79,6 +92,14 @@ class EdamamSearch extends React.Component {
                 Search!
               </FormBtn>
             </form>
+          </Col>
+          <Col size="md-6">
+          <h1>Search Results</h1>
+          <Wrapper>
+            {/* {this.state.receipeResults.map( */}
+            <Card image={this.state.image} recipeName={this.state.recipeName} recipeLink={this.state.recipeLink} />
+            {/* )} */}
+          </Wrapper>
           </Col>
         </Row>
       </Container>
