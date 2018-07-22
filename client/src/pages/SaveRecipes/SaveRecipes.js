@@ -1,10 +1,9 @@
 import React from "react";
-import Jumbotron from "../../components/Jumbotron";
 import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, TextArea, FormBtn, RadioBtn } from "../../components/Form";
 
 // S A V E D   R E C I P E S   L I S T
 
@@ -30,7 +29,7 @@ class Recipes extends React.Component {
   loadRecipes = () => {
     API.getRecipes()
       .then(res =>
-        this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin:"", labels:""  })
+        this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
       )
       .catch(err => console.log(err));
   };
@@ -54,8 +53,9 @@ class Recipes extends React.Component {
   // Then reload recipes from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.name && this.state.ingredients && this.state.description) {
+    if (this.state.name && this.state.ingredients && this.state.description ) {
       API.saveRecipes({
+        user: "test",
         name: this.state.name,
         ingredients: this.state.ingredients,
         description: this.state.description,
@@ -66,14 +66,19 @@ class Recipes extends React.Component {
     }
   };
 
+  handleOptionChange = changeEvent => {
+    this.setState({
+      selectedOption: changeEvent.target.value
+    });
+  };
+
+
   render() {
     return (
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Jumbotron>
-              <h1>Enter New Recipe</h1>
-            </Jumbotron>
+
             <form>
               <Input
                 value={this.state.name}
@@ -81,7 +86,7 @@ class Recipes extends React.Component {
                 name="name"
                 placeholder="Name (required)"
               />
-              <Input
+              <TextArea
                 value={this.state.ingredients}
                 onChange={this.handleInputChange}
                 name="ingredients"
@@ -93,18 +98,34 @@ class Recipes extends React.Component {
                 name="description"
                 placeholder="Description (required)"
               />
-              <FormBtn
-                disabled={!(this.state.name && this.state.ingredients && this.state.description)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Recipe
+              <div className="radio">
+                <RadioBtn
+                  value={this.state.sharable}
+                  onChange={this.handleInputChange}
+                  name="share"
+                  value="share"
+                  checked = {this.state.selectedOption }>
+                  Share
+              </RadioBtn>
+                <RadioBtn
+                  value={this.state.sharable}
+                  onChange={this.handleOptionChange}
+                  name="noShare"
+                  value="noShare"
+                  checked = {this.state.selectedOption }>
+                  Do not Share
+              </RadioBtn>
+              </div>
+                <FormBtn
+                  disabled={!(this.state.name && this.state.ingredients && this.state.description)}
+                  onClick={this.handleFormSubmit}
+                >
+                  Submit Recipe
               </FormBtn>
             </form>
           </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Recipes On My List</h1>
-            </Jumbotron>
+            <Col size="md-6 sm-12">
+            
             {this.state.recipes.length ? (
               <List>
                 {this.state.recipes.map(recipes => {
@@ -126,8 +147,8 @@ class Recipes extends React.Component {
           </Col>
         </Row>
       </Container>
-    );
-  }
-}
-
-export default Recipes;
+        );
+      }
+    }
+    
+    export default Recipes;

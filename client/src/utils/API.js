@@ -21,8 +21,8 @@ export default {
     return axios.patch("/api/recipes/" + id, recipeData);
   },
   searchEdamam: function (queryString) {
-    console.log(queryString);
+    // console.log(queryString);
     return axios.get("https://api.edamam.com/search?q=" + queryString + "&app_id=a5ee7877&app_key=385a3e92adcbf250abaab079e4e705f5");
-    console.log("API hit");
+    // console.log("API hit");
   }
 };
