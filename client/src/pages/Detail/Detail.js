@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, TextArea, FormBtn, RadioBtn } from "../../components/Form";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 
@@ -9,15 +9,15 @@ class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: {},
+      recipe: {},
       isUpdate: false
     };
   }
   // When this component mounts, grab the book with the _id of this.props.match.params.id
   // e.g. localhost:3000/books/599dcb67f0f16317844583fc
   componentDidMount() {
-    API.getBook(this.props.match.params.id)
-      .then(res => this.setState({ book: res.data }))
+    API.getRecipesID(this.props.match.params.id)
+      .then(res => this.setState({ recipe: res.data }))
       .catch(err => console.log(err));
   }
 
@@ -29,18 +29,18 @@ class Detail extends React.Component {
   handleInputChange = event => {
     const { name, value } = event.target;
 
-    const updatedBook = {...this.state.book}
-    updatedBook[name] = value
+    const updatedRecipe = {...this.state.recipe}
+    updatedRecipe[name] = value
 
     this.setState({
-      book: updatedBook
+      recipe: updatedRecipe
     });
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.book.title && this.state.book.author) {
-      API.patchBook(this.props.match.params.id, this.state.book)
+    if (this.state.recipe.name && this.state.recipe.ingredients && this.state.recipe.description) {
+      API.patchRecipes(this.props.match.params.id, this.state.recipe)
         .then(res => this.setState({isUpdate:false}))
         .catch(err => console.log(err));
     }
@@ -50,28 +50,34 @@ class Detail extends React.Component {
     <Container fluid>
       <Row>
         <Col size="md-12">
-          <Jumbotron>
             <h1>
-              {this.state.book.title} by {this.state.book.author}
+              {this.state.recipe.name}
             </h1>
-          </Jumbotron>
         </Col>
       </Row>
       <Row>
         <Col size="md-10 md-offset-1">
           <article>
-            <h1>Synopsis</h1>
+            <h1>ingredients</h1>
             <p>
-              {this.state.book.synopsis}
+              {this.state.recipe.ingredients}
+            </p>
+          </article>
+        </Col>
+      </Row>
+      <Row>
+        <Col size="md-10 md-offset-1">
+          <article>
+            <h1>Description</h1>
+            <p>
+              {this.state.recipe.description}
             </p>
           </article>
         </Col>
       </Row>
       <Row>
         <button onClick={() => this.handleUpdate(true)}>Update</button>
-        <Col size="md-2">
-          <Link to="/">← Back to Authors</Link>
-        </Col>
+        
       </Row>
     </Container>
   );
@@ -80,38 +86,54 @@ class Detail extends React.Component {
     <Container fluid>
       <Row>
         <Col size="md-12">
-          <Jumbotron>
-            <h1>What Books Should I Read?</h1>
-          </Jumbotron>
+            <h1>Update Recipe</h1>
         </Col>
       </Row>
       <Row>
         <Col size="md-10 md-offset-1">
           <form>
-            <Input
-              value={this.state.book.title}
-              onChange={this.handleInputChange}
-              name="title"
-              placeholder="Title (required)"
-            />
-            <Input
-              value={this.state.book.author}
-              onChange={this.handleInputChange}
-              name="author"
-              placeholder="Author (required)"
-            />
-            <TextArea
-              value={this.state.book.synopsis}
-              onChange={this.handleInputChange}
-              name="synopsis"
-              placeholder="Synopsis (Optional)"
-            />
+          <Input
+                value={this.state.name}
+                onChange={this.handleInputChange}
+                name="name"
+                defaultValue={this.state.recipe.name}
+
+              />
+              <TextArea
+                value={this.state.ingredients}
+                onChange={this.handleInputChange}
+                name="ingredients"
+                defaultValue={this.state.recipe.ingredients}
+
+              />
+              <TextArea
+                value={this.state.description}
+                onChange={this.handleInputChange}
+                name="description"
+                defaultValue={this.state.recipe.description}
+              />
+                <RadioBtn
+                  value={this.state.sharable}
+                  onChange={this.handleInputChange}
+                  name="share"
+                  value="share"
+                  checked = {this.state.selectedOption }>
+                  Share
+              </RadioBtn>
+                <RadioBtn
+                  value={this.state.sharable}
+                  onChange={this.handleOptionChange}
+                  name="noShare"
+                  value="noShare"
+                  checked = {this.state.selectedOption }>
+                  Do not Share
+              </RadioBtn>
             <button onClick={() => this.handleUpdate(false)}>Cancel</button>
             <FormBtn
-              disabled={!(this.state.book.author && this.state.book.title)}
+              disabled={!(this.state.recipe.name && this.state.recipe.ingredients && this.state.recipe.description)}
               onClick={this.handleFormSubmit}
             >
-              Submit Book
+              Submit Recipe
             </FormBtn>
           </form>
         </Col>
