@@ -12,15 +12,15 @@ const Nav = () =>
       </button>
       <div className="collapse navbar-collapse" id="navbarText">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
+          <li  className={window.location.pathname === "/home" ? "active nav-item" : "nav-item"} >
             <a className="nav-link" href="/home">Home
                 <span className="sr-only">(current)</span>
             </a>
           </li>
-          <li className="nav-item">
+          <li className={window.location.pathname === "/save-recipes" ? "active nav-item" : "nav-item"}>
             <a className="nav-link" href="/save-recipes">Save New Recipe</a>
           </li>
-          <li className="nav-item">
+          <li className={window.location.pathname === "/saved-recipes" ? "active nav-item" : "nav-item"}>
             <a className="nav-link" href="/saved-recipes">Saved Recipes</a>
           </li>
 
