@@ -10,6 +10,12 @@ import Nav from "./components/Nav";
 import Jumbotron from "./components/Jumbotron";
 import SignInScreen from "./components/Login";
 
+// import { library } from '@fortawesome/fontawesome-svg-core'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faHeart, faBookmark } from '@fortawesome/free-solid-svg-icons'
+
+// library.add(faHeart, faBookmark)
+
 
 const App = () =>
   <Router>

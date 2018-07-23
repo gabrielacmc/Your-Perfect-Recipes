@@ -9,29 +9,28 @@
   font-size: 20px;
   cursor: pointer;
   font-family: FontAwesome;
-  outline: none;
+  outline: 0;
 }
 
-.pass {
+/* .fa-heart {
   left: 1%;
   background: #E53935;
+}
+
+.like::after {
   content: "\f004";
 }
 
-.pass::after {
-  content: "\f004";
-}
-
-.pick {
+.fa-bookmark {
   right: 1%;
 
 }
 
-.pick::after {
+.fa-bookmark::after {
   content: "\f02e";
 }
 
-.pick:hover::after, .pass:hover::after {
+.like:hover::after, .fa-bookmark:hover::after {
   animation: iconBounce .57s 1;
 }
 
@@ -48,4 +47,4 @@
     font-size: 24px;
   }
 
-}
+} */

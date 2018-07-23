@@ -1,6 +1,18 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import "./Wrapper.css";
 
-const Wrapper = props => <div className="wrapper">{props.children}</div>;
+// const { showCard } = this.props
+const Wrapper = props => 
+    <div className="wrapper">
+    {/* <i className="fa fa-spinner fa-spin" aria-hidden="true" /> */}
+        {props.children}
+    </div>;
+
+
+Wrapper.propTypes = {
+    showCard: PropTypes.string
+    // handleBtnClick: PropTypes.func
+  }
 
 export default Wrapper;

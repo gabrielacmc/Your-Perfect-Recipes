@@ -11,3 +11,11 @@
   width: 90%;
   margin: 0 auto;
 }
+
+.fa-spinner {
+  font-size: 50px;
+  position: absolute;
+  left: 50%;
+  top: 100px;
+}
+

@@ -38,3 +38,7 @@
   left: 25%;
   top: 25%;
 }
+
+.btn {
+  font-family: FontAwesome;
+}

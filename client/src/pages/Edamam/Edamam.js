@@ -109,7 +109,7 @@ class EdamamSearch extends React.Component {
           </Col>
           <Col size="md-9">
           <h1>Search Results</h1>
-          <Wrapper>
+          <Wrapper showCard={this.state.showCard}>
             {searchResults.map((results, index) => (
               <Card 
                 key={results.recipe.shareAs}
