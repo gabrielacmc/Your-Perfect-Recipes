@@ -6,42 +6,45 @@ import "./Card.css";
 class Card extends React.Component {
 
   render () {
-    const { image, recipeName, recipeLink } = this.props
+    const { image, recipeName, recipeLink, showCard } = this.props
 
     return (
+      // (!showCard ? "" :
       <div>
-        <div className="cardtitle">
-          {recipeName}
-          <br/>
-          <a href={recipeLink}>View the full recipe!</a>
-        </div>
-        
-        <div
-          className="card"
-          style={{
-            backgroundImage: image ? `url(${image})` : "none"
-          }}
-        >
+        <ul classname="recipeResults">
+          <div className="cardtitle">
+            {recipeName}
+            <br/>
+            <a href={recipeLink}>View the full recipe!</a>
+          </div>
+          
+          <div
+            className="card"
+            style={{
+              backgroundImage: image ? `url(${image})` : "none"
+            }}
+          >
 
-          {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />}
+            {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />}
 
-        </div>
+          </div>
 
-        <div className="cardbottom">
-        <CardBtn
-            style={{ opacity: image ? 1 : 0 }}
-            // onClick={handleBtnClick}
-            dataValue="bookmark"
-          />
+          <div className="cardbottom">
           <CardBtn
-            style={{ opacity: image ? 1 : 0 }}
-            // onClick={handleBtnClick}
-            dataValue="heart"
-          />
-        </div>
+              style={{ opacity: image ? 1 : 0 }}
+              // onClick={handleBtnClick}
+              dataValue="bookmark"
+            />
+            <CardBtn
+              style={{ opacity: image ? 1 : 0 }}
+              // onClick={handleBtnClick}
+              dataValue="heart"
+            />
+          </div>
 
-
+        </ul>
       </div>
+      // )
     );
   }
 }
@@ -49,7 +52,8 @@ class Card extends React.Component {
 Card.propTypes = {
   image: PropTypes.string,
   recipeName: PropTypes.string,
-  recipeLink: PropTypes.string
+  recipeLink: PropTypes.string,
+  showCard: PropTypes.string
   // handleBtnClick: PropTypes.func
 }
 
