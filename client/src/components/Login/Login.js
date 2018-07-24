@@ -50,7 +50,6 @@ class SignInScreen extends React.Component {
     if (!this.state.isSignedIn) {
       return (
         <div>
-          <h1>Your Perfect Recipes</h1>
           <p>Please sign-in:</p>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
         </div>
@@ -58,7 +57,6 @@ class SignInScreen extends React.Component {
     }
     return (
       <div>
-        <h1>Your Perfect Recipes</h1>
         <p>Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!</p>
         <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
       </div>

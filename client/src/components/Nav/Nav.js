@@ -1,4 +1,5 @@
 import React from "react";
+import Login from "../Login";
 
 
 const Nav = () =>
@@ -26,8 +27,8 @@ const Nav = () =>
 
         </ul>
         <span className="navbar-text">
-          "Login Information here?"
-        </span>
+<Login/>
+          </span>
       </div>
 </nav>;
     
