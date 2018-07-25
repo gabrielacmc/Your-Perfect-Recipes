@@ -1,21 +1,23 @@
 //Import FirebaseAuth and firebase.
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase';
+import firebase from "../config/constants";
 
 // Configure Firebase.
-const config = {
-  apiKey: 'AIzaSyCGyfwSt_X1JxdYfNQIA-Zykb1VW3mSxEY',
-  authDomain: 'your-perfect-recipes.firebaseapp.com',
-  // ...
-};
-firebase.initializeApp(config);
+// const config = {
+//   apiKey: 'AIzaSyCGyfwSt_X1JxdYfNQIA-Zykb1VW3mSxEY',
+//   authDomain: 'your-perfect-recipes.firebaseapp.com',
+//   databaseURL: 'https://your-perfect-recipes.firebaseio.com'
+//   // ...
+// };
 
-class SignInScreen extends React.Component {
+// firebase.initializeApp(config);
 
+export default class SignInScreen extends React.Component {
   // The component's Local state.
   state = {
-    isSignedIn: false // Local signed-in state.
+    isSignedIn: false, // Local signed-in state.
+    uid: firebase.auth()
   };
 
   // Configure FirebaseUI.
@@ -34,13 +36,20 @@ class SignInScreen extends React.Component {
     }
   };
 
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-        (user) => this.setState({isSignedIn: !!user})
+      (user) => this.setState({ isSignedIn: !!user })
     );
   }
-  
+
   // Make sure we un-register Firebase observers when the component unmounts.
   componentWillUnmount() {
     this.unregisterAuthObserver();
@@ -51,7 +60,7 @@ class SignInScreen extends React.Component {
       return (
         <div>
           <p>Please sign-in:</p>
-          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
         </div>
       );
     }
@@ -64,4 +73,7 @@ class SignInScreen extends React.Component {
   }
 }
 
-export default SignInScreen;
+// export const ref = firebase.database().ref()
+// export const firebaseAuth = firebase.auth
+// export const reference = firebase
+// export default SignInScreen;
