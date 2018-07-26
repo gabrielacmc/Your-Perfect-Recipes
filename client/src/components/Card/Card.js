@@ -28,7 +28,7 @@ class Card extends React.Component {
             }}
           >
             
-            {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />}
+            {/* {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />} */}
 
           </div>
 

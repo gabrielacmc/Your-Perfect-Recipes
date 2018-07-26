@@ -6,12 +6,12 @@ class RadioBtn extends React.Component {
 
   render () {
     
-    const { children, value, checked } = this.props
+    const { children, value, checked, onChange } = this.props
 
 
     return (
         <label className = "checkBox">
-          <input name = "sharable" type="radio" value={ value } checked={checked} />
+          <input name = "sharable" type="radio" value={ value } checked={checked} onChange={onChange}/>
           { children }
         </label>
     )

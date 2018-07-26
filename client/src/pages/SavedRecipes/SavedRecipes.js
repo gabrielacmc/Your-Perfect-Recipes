@@ -3,7 +3,6 @@ import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn, RadioBtn } from "../../components/Form";
 
 // S A V E D   R E C I P E S   L I S T
 
@@ -61,21 +60,19 @@ class Recipes extends React.Component {
     return (
       <Container fluid>
         <Row>
-         
-            <Col size="md-6 sm-12">
-            
+
+          <Col size="md-6 sm-12">
+
             {this.state.recipes.length ? (
               <List>
                 {this.state.recipes.map(recipes => {
                   return (
-                    <ListItem key={recipes._id}>
-                      <a href={"/recipes/" + recipes._id}>
-                        <strong>
-                          {recipes.name}
-                        </strong>
-                      </a>
-                      <DeleteBtn onClick={() => this.deleteRecipes(recipes._id)} />
+                    <ListItem key={recipes._id}
+                      recipeLink={"/recipes/" + recipes._id}
+                      recipeName={recipes.name}
+                      deleteRecipe={() => this.deleteRecipes(recipes._id)}>
                     </ListItem>
+
                   );
                 })}
               </List>
@@ -85,8 +82,8 @@ class Recipes extends React.Component {
           </Col>
         </Row>
       </Container>
-        );
-      }
-    }
-    
-    export default Recipes;
+    );
+  }
+}
+
+export default Recipes;
