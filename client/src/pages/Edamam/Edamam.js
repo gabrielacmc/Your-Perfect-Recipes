@@ -30,10 +30,12 @@ class EdamamSearch extends React.Component {
     this.state = {
       recipeResults: [],
       queryString: "",
-      recipeName: [],
-      image: [],
-      recipeLink: [],
-      showCard: "false"
+      recipeName: "",
+      image: "",
+      recipeLink: "",
+      showCard: false,
+      like: false,
+      save: false
     };
   }
 
@@ -75,7 +77,7 @@ class EdamamSearch extends React.Component {
         .then(res => {
           searchResults = res.data.hits;
           console.log(searchResults);
-          this.setState({ showCard: "true" })
+          this.setState({ showCard: true })
         }
           // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
         )
@@ -83,6 +85,39 @@ class EdamamSearch extends React.Component {
 
     }
   };
+
+  //FIXXXXXXX :(
+  handleBtnClick = event => {
+    // Get the data-value of the clicked button
+    const btnType = event.target.attributes.getNamedItem("data-value").value;
+    console.log(btnType);
+    // const newState = { ...this.state };
+    //mark recipe as "liked"
+    if (btnType === "heart" && this.state.like === false) {
+
+      this.setState((prevState, props) => ({ 
+        like: true }));
+      console.log("liked!");
+      console.log(this.state.like);
+    //mark recipe as "unliked"
+    } else if (btnType === "heart" && this.state.like === true) {
+      this.setState((prevState, props) => ({ 
+        like: !prevState.like }));
+      console.log("unliked!");
+      console.log(this.state.like);
+    //mark recipe as "saved"
+    } else if (btnType === "bookmark" && this.state.save === false) {
+      this.setState({ save: true });
+      console.log("saved!");
+      console.log(this.state.save);
+    //mark recipe as "unsaved"
+    } else if (btnType === "bookmark" && this.state.save === true) {
+      this.setState({ save: false });
+      console.log("unsaved!");
+      console.log(this.state.save);
+    }
+    // this.setState(newState);
+  }
 
   render() {
     return (
@@ -116,6 +151,9 @@ class EdamamSearch extends React.Component {
                 image={results.recipe.image} 
                 recipeName={results.recipe.label}
                 recipeLink={results.recipe.url} 
+                handleBtnClick={this.handleBtnClick}
+                like={this.state.like}
+                save={this.state.save}
               />
             ))}
           </Wrapper>
