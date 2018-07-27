@@ -16,13 +16,22 @@ class Recipes extends React.Component {
       description: "",
       origin: "",
       labels: "",
-      selectedOption:"share"
+      selectedOption:"share",
+      user:'gabi'
+
     };
   }
 
   // When the component mounts, load all recipes and save them to this.state.recipes
-  componentDidMount() {
-    this.loadRecipes();
+  componentDidMount(user) {
+    
+    user = this.state.user;
+    console.log(user);
+    
+    this.loadUserRecipes(user);
+
+    
+    
   }
 
   // Loads all recipes  and sets them to this.state.recipes
@@ -33,6 +42,14 @@ class Recipes extends React.Component {
       )
       .catch(err => console.log(err));
   };
+
+  loadUserRecipes = (user) => {
+    API.getRecipesUser(user)
+    .then(res =>
+      this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+    )
+    .catch(err => console.log(err));
+  }
 
   // Deletes a recipe from the database with a given id, then reloads recipes from the db
   deleteRecipes = id => {
@@ -55,7 +72,7 @@ class Recipes extends React.Component {
     event.preventDefault();
     if (this.state.name && this.state.ingredients && this.state.description ) {
       API.saveRecipes({
-        user: "test",
+        user: "gabi",
         name: this.state.name,
         ingredients: this.state.ingredients,
         description: this.state.description,
