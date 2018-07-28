@@ -1,39 +1,11 @@
-//Import FirebaseAuth and firebase.
-import React from 'react';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import React, { Component } from "react";
+import API from "../../utils/API";
 import firebase from "../config/constants";
+// import "./dashboard.css";
 
-// Configure Firebase.
-// const config = {
-//   apiKey: 'AIzaSyCGyfwSt_X1JxdYfNQIA-Zykb1VW3mSxEY',
-//   authDomain: 'your-perfect-recipes.firebaseapp.com',
-//   databaseURL: 'https://your-perfect-recipes.firebaseio.com'
-//   // ...
-// };
-
-// firebase.initializeApp(config);
-
-export default class SignInScreen extends React.Component {
-  // The component's Local state.
+export default class SignInScreen extends Component {
   state = {
-    isSignedIn: false, // Local signed-in state.
-    uid: firebase.auth()
-  };
-
-  // Configure FirebaseUI.
-  uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: () => false
-    }
+    uid: firebase.auth().currentUser.uid
   };
 
   handleInputChange = event => {
@@ -43,37 +15,73 @@ export default class SignInScreen extends React.Component {
     });
   };
 
-  // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
-    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-      (user) => this.setState({ isSignedIn: !!user })
-    );
+    this.getUserInfo(this.state.uid);
   }
 
-  // Make sure we un-register Firebase observers when the component unmounts.
-  componentWillUnmount() {
-    this.unregisterAuthObserver();
-  }
+  saveLogin = (name, uid) => {
+    API.saveLogin({ loginName: name, uid }).then(() => {
+      this.getUserInfo(this.state.uid);
+    });
+  };
+
+  getUserInfo = uid => {
+    console.log(uid);
+    API.getUserInfo(uid)
+      .then(res => this.setState({ lName: "" }))
+      .catch(err => console.log(err + "failed to get login"));
+  };
+
+  deleteUserInfo = watchId => {
+    API.deleteUserInfo(watchId).then(res => this.getUserInfo(this.state.uid));
+  };
 
   render() {
-    if (!this.state.isSignedIn) {
-      return (
-        <div>
-          <p>Please sign-in:</p>
-          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
-        </div>
-      );
-    }
     return (
       <div>
-        <p>Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!</p>
-        <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
+        <div className="row">
+          <label>Login Name</label>
+          <input
+            value={this.state.lName}
+            onChange={this.handleInputChange}
+            name="lName"
+          />
+          <a
+            className="wave-effect wave-light btn black"
+            onClick={() =>
+              this.saveLogin(
+                this.state.lName,
+                this.state.uid
+              )
+            }
+          >
+            Submit
+          </a>
+        </div>
+        <ul className="collection with-header">
+          <h4 className="collection-header">Users</h4>
+          {this.state.users.map(users => (
+            <li key={users._id} className="row">
+              <div className="users__name col m4 center">
+                {users.loginName}
+              </div>
+              <div className="col m4">
+                <a
+                  className="wave-effect wave-light btn right pink"
+                  onClick={() => this.deleteUserInfo(users._id)}
+                >
+                  Delete
+                      </a>
+              </div>
+
+            </li>
+
+          ))}
+
+
+        </ul>
+
       </div>
     );
   }
 }
-
-// export const ref = firebase.database().ref()
-// export const firebaseAuth = firebase.auth
-// export const reference = firebase
-// export default SignInScreen;
