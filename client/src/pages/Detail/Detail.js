@@ -10,7 +10,9 @@ class Detail extends React.Component {
     super(props);
     this.state = {
       recipe: {},
-      isUpdate: false
+      isUpdate: false,
+      selectedOption:"share",
+
     };
   }
   // When this component mounts, grab the book with the _id of this.props.match.params.id
@@ -29,7 +31,7 @@ class Detail extends React.Component {
   handleInputChange = event => {
     const { name, value } = event.target;
 
-    const updatedRecipe = {...this.state.recipe}
+    const updatedRecipe = { ...this.state.recipe }
     updatedRecipe[name] = value
 
     this.setState({
@@ -41,18 +43,24 @@ class Detail extends React.Component {
     event.preventDefault();
     if (this.state.recipe.name && this.state.recipe.ingredients && this.state.recipe.description) {
       API.patchRecipes(this.props.match.params.id, this.state.recipe)
-        .then(res => this.setState({isUpdate:false}))
+        .then(res => this.setState({ isUpdate: false }))
         .catch(err => console.log(err));
     }
   };
+
+  // handleOptionChange = changeEvent => {
+  //   this.setState({
+  //     selectedOption: changeEvent.target.value
+  //   });
+  // };
 
   getReadOnly = () => (
     <Container fluid>
       <Row>
         <Col size="md-12">
-            <h1>
-              {this.state.recipe.name}
-            </h1>
+          <h1>
+            {this.state.recipe.name}
+          </h1>
         </Col>
       </Row>
       <Row>
@@ -77,7 +85,7 @@ class Detail extends React.Component {
       </Row>
       <Row>
         <button onClick={() => this.handleUpdate(true)}>Update</button>
-        
+
       </Row>
     </Container>
   );
@@ -86,48 +94,48 @@ class Detail extends React.Component {
     <Container fluid>
       <Row>
         <Col size="md-12">
-            <h1>Update Recipe</h1>
+          <h1>Update Recipe</h1>
         </Col>
       </Row>
       <Row>
         <Col size="md-10 md-offset-1">
           <form>
-          <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                defaultValue={this.state.recipe.name}
+            <Input
+              value={this.state.name}
+              onChange={this.handleInputChange}
+              name="name"
+              defaultValue={this.state.recipe.name}
 
-              />
-              <TextArea
-                value={this.state.ingredients}
-                onChange={this.handleInputChange}
-                name="ingredients"
-                defaultValue={this.state.recipe.ingredients}
+            />
+            <TextArea
+              value={this.state.ingredients}
+              onChange={this.handleInputChange}
+              name="ingredients"
+              defaultValue={this.state.recipe.ingredients}
 
-              />
-              <TextArea
-                value={this.state.description}
-                onChange={this.handleInputChange}
-                name="description"
-                defaultValue={this.state.recipe.description}
-              />
-                <RadioBtn
-                  value={this.state.sharable}
-                  onChange={this.handleInputChange}
-                  name="share"
-                  value="share"
-                  checked = {this.state.selectedOption }>
-                  Share
+            />
+            <TextArea
+              value={this.state.description}
+              onChange={this.handleInputChange}
+              name="description"
+              defaultValue={this.state.recipe.description}
+            />
+            {/* <div className="radio">
+              <RadioBtn
+                onChange={this.handleOptionChange}
+                name="share"
+                value="share"
+                checked={this.state.selectedOption === "share"}>
+                Share
               </RadioBtn>
-                <RadioBtn
-                  value={this.state.sharable}
-                  onChange={this.handleOptionChange}
-                  name="noShare"
-                  value="noShare"
-                  checked = {this.state.selectedOption }>
-                  Do not Share
+              <RadioBtn
+                onChange={this.handleOptionChange}
+                name="noShare"
+                value="noShare"
+                checked={this.state.selectedOption === "noShare"}>
+                Do not Share
               </RadioBtn>
+            </div> */}
             <button onClick={() => this.handleUpdate(false)}>Cancel</button>
             <FormBtn
               disabled={!(this.state.recipe.name && this.state.recipe.ingredients && this.state.recipe.description)}

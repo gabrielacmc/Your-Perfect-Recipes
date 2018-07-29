@@ -1,7 +1,7 @@
 import React from "react";
 import CardBtn from "../CardBtn";
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Card.css";
 
 

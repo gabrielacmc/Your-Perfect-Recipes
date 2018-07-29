@@ -16,6 +16,12 @@ const recipeFunctions = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByUser: function (req, res) {
+    db.Recipe
+      .find({ 'user': req.params.user})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function (req, res) {
     db.Recipe
       .create(req.body)
@@ -44,6 +50,8 @@ router.post("/api/recipes", recipeFunctions.create)
 router.delete("/api/recipes/:id", recipeFunctions.remove)
 
 router.get("/api/recipes/:id", recipeFunctions.findById)
+
+router.get("/api/recipes/user/:user", recipeFunctions.findByUser)
 
 router.patch("/api/recipes/:id", recipeFunctions.update)
 

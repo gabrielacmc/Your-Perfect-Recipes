@@ -5,6 +5,9 @@ export default {
   getRecipes: function () {
     return axios.get("/api/recipes");
   },
+  getRecipesUser: function (user) {
+    return axios.get("/api/recipes/user/" + user);
+  },
   // Deletes the recipe with the given id
   deleteRecipes: function (id) {
     return axios.delete("/api/recipes/" + id);

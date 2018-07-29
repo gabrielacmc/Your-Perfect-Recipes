@@ -1,4 +1,5 @@
 import React from "react";
+import Login from "../Login";
 
 
 const Nav = () =>
@@ -13,21 +14,22 @@ const Nav = () =>
       <div className="collapse navbar-collapse" id="navbarText">
         <ul className="navbar-nav mr-auto">
           <li  className={window.location.pathname === "/home" ? "active nav-item" : "nav-item"} >
-            <a className="nav-link" href="/home">Home
-                <span className="sr-only">(current)</span>
-            </a>
+            <a className="nav-link" href="/home">Home</a>
+          </li>
+          <li className={window.location.pathname === "/edamamrecipes" ? "active nav-item" : "nav-item"}>
+            <a className="nav-link" href="/edamamrecipes">Search</a>
           </li>
           <li className={window.location.pathname === "/save-recipes" ? "active nav-item" : "nav-item"}>
-            <a className="nav-link" href="/save-recipes">Save New Recipe</a>
+            <a className="nav-link" href="/save-recipes">Save</a>
           </li>
           <li className={window.location.pathname === "/saved-recipes" ? "active nav-item" : "nav-item"}>
-            <a className="nav-link" href="/saved-recipes">Saved Recipes</a>
+            <a className="nav-link" href="/saved-recipes">Favorites</a>
           </li>
 
         </ul>
         <span className="navbar-text">
-          "Login Information here?"
-        </span>
+<Login/>
+          </span>
       </div>
 </nav>;
     

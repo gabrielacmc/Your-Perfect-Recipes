@@ -1,5 +1,4 @@
 import React from "react";
-import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -17,12 +16,22 @@ class Recipes extends React.Component {
       description: "",
       origin: "",
       labels: "",
+      selectedOption:"share",
+      user:'gabi'
+
     };
   }
 
   // When the component mounts, load all recipes and save them to this.state.recipes
-  componentDidMount() {
-    this.loadRecipes();
+  componentDidMount(user) {
+    
+    user = this.state.user;
+    console.log(user);
+    
+    this.loadUserRecipes(user);
+
+    
+    
   }
 
   // Loads all recipes  and sets them to this.state.recipes
@@ -33,6 +42,14 @@ class Recipes extends React.Component {
       )
       .catch(err => console.log(err));
   };
+
+  loadUserRecipes = (user) => {
+    API.getRecipesUser(user)
+    .then(res =>
+      this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+    )
+    .catch(err => console.log(err));
+  }
 
   // Deletes a recipe from the database with a given id, then reloads recipes from the db
   deleteRecipes = id => {
@@ -55,11 +72,11 @@ class Recipes extends React.Component {
     event.preventDefault();
     if (this.state.name && this.state.ingredients && this.state.description ) {
       API.saveRecipes({
-        user: "test",
+        user: "gabi",
         name: this.state.name,
         ingredients: this.state.ingredients,
         description: this.state.description,
-        sharable: true
+        sharable: this.state.selectedOption==="share"
       })
         .then(res => this.loadRecipes())
         .catch(err => console.log(err));
@@ -100,19 +117,17 @@ class Recipes extends React.Component {
               />
               <div className="radio">
                 <RadioBtn
-                  value={this.state.sharable}
-                  onChange={this.handleInputChange}
+                  onChange={this.handleOptionChange}
                   name="share"
                   value="share"
-                  checked = {this.state.selectedOption }>
+                  checked = {this.state.selectedOption==="share"}>
                   Share
               </RadioBtn>
                 <RadioBtn
-                  value={this.state.sharable}
                   onChange={this.handleOptionChange}
                   name="noShare"
                   value="noShare"
-                  checked = {this.state.selectedOption }>
+                  checked = {this.state.selectedOption==="noShare" }>
                   Do not Share
               </RadioBtn>
               </div>
@@ -130,13 +145,10 @@ class Recipes extends React.Component {
               <List>
                 {this.state.recipes.map(recipes => {
                   return (
-                    <ListItem key={recipes._id}>
-                      <a href={"/recipes/" + recipes._id}>
-                        <strong>
-                          {recipes.name}
-                        </strong>
-                      </a>
-                      <DeleteBtn onClick={() => this.deleteRecipes(recipes._id)} />
+                    <ListItem key={recipes._id}
+                    recipeLink={"/recipes/" + recipes._id}
+                    recipeName={recipes.name} 
+                    deleteRecipe={() => this.deleteRecipes(recipes._id)}>
                     </ListItem>
                   );
                 })}
