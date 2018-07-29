@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import firebase from "../config/constants";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // import "./dashboard.css";
 
 export default class SignInScreen extends Component {
   state = {
     isSignedIn: false, //Local signed-in state.
-    uid: firebase.auth().currentUser.uid
+    // uid: firebase.auth().currentUser.uid
   };
 
   //Configure FirebaseUI
