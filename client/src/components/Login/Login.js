@@ -5,9 +5,24 @@ import firebase from "../config/constants";
 
 export default class SignInScreen extends Component {
   state = {
+    isSignedIn: false, //Local signed-in state.
     uid: firebase.auth().currentUser.uid
   };
 
+  //Configure FirebaseUI
+  uiConfig = {
+    //Popup signin
+    signInFlow: 'popup',
+    //Display Google as auth providers
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      //Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => false
+    }
+  };
+  
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -15,8 +30,16 @@ export default class SignInScreen extends Component {
     });
   };
 
+  //Listen to the Firebase Auth state and set the local state
   componentDidMount() {
-    this.getUserInfo(this.state.uid);
+    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+      (user) => this.setState({ isSignedIn: !!user })
+    );
+  }
+
+  //Make sure we un-register Firebase observers when the component unmounts.
+  componentWillUnmount() {
+    this.unregisterAuthObserver();
   }
 
   saveLogin = (name, uid) => {
@@ -37,50 +60,18 @@ export default class SignInScreen extends Component {
   };
 
   render() {
+    if(!this.state.isSignedIn){
+      return (
+        <div>
+          <p>Please sign-in:</p>
+          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
+          </div>
+      );
+    }
     return (
       <div>
-        <div className="row">
-          <label>Login Name</label>
-          <input
-            value={this.state.lName}
-            onChange={this.handleInputChange}
-            name="lName"
-          />
-          <a
-            className="wave-effect wave-light btn black"
-            onClick={() =>
-              this.saveLogin(
-                this.state.lName,
-                this.state.uid
-              )
-            }
-          >
-            Submit
-          </a>
-        </div>
-        <ul className="collection with-header">
-          <h4 className="collection-header">Users</h4>
-          {this.state.users.map(users => (
-            <li key={users._id} className="row">
-              <div className="users__name col m4 center">
-                {users.loginName}
-              </div>
-              <div className="col m4">
-                <a
-                  className="wave-effect wave-light btn right pink"
-                  onClick={() => this.deleteUserInfo(users._id)}
-                >
-                  Delete
-                      </a>
-              </div>
-
-            </li>
-
-          ))}
-
-
-        </ul>
-
+        <p>Welcome {firebase.auth().currentUser.displayName}! </p>
+        <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
       </div>
     );
   }
