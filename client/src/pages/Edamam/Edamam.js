@@ -9,34 +9,25 @@ import { Input, TextArea, FormBtn } from "../../components/Form";
 
 
 let searchResults = [];
-    // // Searches recipes using queryString
-    // function loadEdamamRecipes(queryString) {
+let cardID = [];
 
-    //   API.searchEdamam(queryString)
-    //     .then(res => {
-    //       searchResults = res.data.hits;
-    //       console.log(searchResults);
-    //     }
-    //       // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
-    //     )
-    //     .catch(err => console.log(err));
-
-    // };
 // S E A R C H  E D A M A M   A P I
 
 class EdamamSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeResults: [],
+      // recipeResults: [],
       queryString: "",
-      recipeName: "",
-      image: "",
-      recipeLink: "",
+      recipeID: [],
+      // recipeName: "",
+      // image: "",
+      // recipeLink: "",
       showCard: false,
       like: false,
       save: false
     };
+    this.handleBtnClick = this.handleBtnClick.bind(this);
   }
 
   // When the component mounts, load featured recipe
@@ -76,8 +67,12 @@ class EdamamSearch extends React.Component {
       API.searchEdamam(this.state.queryString)
         .then(res => {
           searchResults = res.data.hits;
-          console.log(searchResults);
-          this.setState({ showCard: true })
+          // for(var i=0; i<searchResults.length; i++) {
+          //   cardID.push(i);
+          // };
+          this.setState({ 
+            showCard: true
+           })
         }
           // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
         )
@@ -87,37 +82,32 @@ class EdamamSearch extends React.Component {
   };
 
   //FIXXXXXXX :(
-  handleBtnClick = event => {
+  handleBtnClick = (event, id) => {
     // Get the data-value of the clicked button
     const btnType = event.target.attributes.getNamedItem("data-value").value;
     console.log(btnType);
+    console.log(this.state);
     // const newState = { ...this.state };
     //mark recipe as "liked"
-    if (btnType === "heart" && this.state.like === false) {
+    if (btnType === "heart") {
+      this.setState(prevState => ({
+        like: !prevState.like
+      }));
+      // saveEdamamRecipe();
 
-      this.setState((prevState, props) => ({ 
-        like: true }));
-      console.log("liked!");
-      console.log(this.state.like);
-    //mark recipe as "unliked"
-    } else if (btnType === "heart" && this.state.like === true) {
-      this.setState((prevState, props) => ({ 
-        like: !prevState.like }));
-      console.log("unliked!");
-      console.log(this.state.like);
-    //mark recipe as "saved"
-    } else if (btnType === "bookmark" && this.state.save === false) {
-      this.setState({ save: true });
-      console.log("saved!");
-      console.log(this.state.save);
-    //mark recipe as "unsaved"
-    } else if (btnType === "bookmark" && this.state.save === true) {
-      this.setState({ save: false });
-      console.log("unsaved!");
-      console.log(this.state.save);
-    }
-    // this.setState(newState);
-  }
+      console.log(this.props);  
+      console.log(searchResults);
+      // recipeFunctions.create( searchResults.)
+    } else if (btnType === "bookmark") {
+      this.setState(prevState => ({
+        save: !prevState.save
+      }));
+    }    
+  };
+  
+  saveEdamamRecipe = () => {
+console.log("test");
+  };
 
   render() {
     return (
@@ -150,10 +140,12 @@ class EdamamSearch extends React.Component {
                 key={results.recipe.shareAs}
                 image={results.recipe.image} 
                 recipeName={results.recipe.label}
-                recipeLink={results.recipe.url} 
+                recipeLink={results.recipe.url}
+                recipeIngredients={results.recipe.ingredientLines}
                 handleBtnClick={this.handleBtnClick}
-                like={this.state.like}
-                save={this.state.save}
+                like={this.state.like ? "liked" : "unliked"}
+                save={this.state.save ? "saved" : "unsaved"}
+                recipeID={index}
               />
             ))}
           </Wrapper>
