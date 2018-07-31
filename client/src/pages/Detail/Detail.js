@@ -9,8 +9,6 @@ class Detail extends React.Component {
     this.state = {
       recipe: {},
       isUpdate: false,
-      selectedOption:"share",
-
     };
   }
   // When this component mounts, grab the book with the _id of this.props.match.params.id
@@ -46,11 +44,7 @@ class Detail extends React.Component {
     }
   };
 
-  // handleOptionChange = changeEvent => {
-  //   this.setState({
-  //     selectedOption: changeEvent.target.value
-  //   });
-  // };
+
 
   getReadOnly = () => (
     <Container fluid>
@@ -118,22 +112,6 @@ class Detail extends React.Component {
               name="description"
               defaultValue={this.state.recipe.description}
             />
-            {/* <div className="radio">
-              <RadioBtn
-                onChange={this.handleOptionChange}
-                name="share"
-                value="share"
-                checked={this.state.selectedOption === "share"}>
-                Share
-              </RadioBtn>
-              <RadioBtn
-                onChange={this.handleOptionChange}
-                name="noShare"
-                value="noShare"
-                checked={this.state.selectedOption === "noShare"}>
-                Do not Share
-              </RadioBtn>
-            </div> */}
             <button onClick={() => this.handleUpdate(false)}>Cancel</button>
             <FormBtn
               disabled={!(this.state.recipe.name && this.state.recipe.ingredients && this.state.recipe.description)}

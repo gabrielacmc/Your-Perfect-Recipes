@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SaveRecipes from "./pages/SaveRecipes";
 import SavedRecipes from "./pages/SavedRecipes";
-import TestPage from "./pages/TestPage";
+import YourRecipes from "./pages/YourRecipes";
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Home from "./pages/Home";
@@ -26,9 +26,7 @@ const App = () =>
         <Route exact path="/" component={Home} />
         <Route exact path="/home" component={Home} />
         {/* Can we certain paths only show if person is logged in? */}
-        <Route exact path="/save-recipes" component={SaveRecipes} />
-        <Route exact path="/saved-recipes" component={SavedRecipes} />
-        <Route exact path="/testPage" component={TestPage} />
+        <Route exact path="/your-recipes" component={YourRecipes} />
         <Route exact path="/recipes/:id" component={Detail} />
         <Route exact path="/edamamrecipes" component={EdamamSearch} />
         <Route component={NoMatch} />

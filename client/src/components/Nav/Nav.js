@@ -19,11 +19,8 @@ const Nav = () =>
           <li className={window.location.pathname === "/edamamrecipes" ? "active nav-item" : "nav-item"}>
             <a className="nav-link" href="/edamamrecipes">Search</a>
           </li>
-          <li className={window.location.pathname === "/save-recipes" ? "active nav-item" : "nav-item"}>
-            <a className="nav-link" href="/save-recipes">Save</a>
-          </li>
-          <li className={window.location.pathname === "/saved-recipes" ? "active nav-item" : "nav-item"}>
-            <a className="nav-link" href="/saved-recipes">Favorites</a>
+          <li className={window.location.pathname === "/your-recipes" ? "active nav-item" : "nav-item"}>
+            <a className="nav-link" href="/your-recipes">Your Recipes</a>
           </li>
 
         </ul>
