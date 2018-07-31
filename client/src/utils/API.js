@@ -5,8 +5,15 @@ export default {
   getRecipes: function () {
     return axios.get("/api/recipes");
   },
+  //Get recipe from user
   getRecipesUser: function (user) {
     return axios.get("/api/recipes/user/" + user);
+  },
+   //Search recipes from user by keyword 
+
+   getRecipesUserQuery: function (user, queryString) {
+    return axios.get("/api/recipes/search/" + user, {params:{searchQuery:queryString}});
+
   },
   // Deletes the recipe with the given id
   deleteRecipes: function (id) {
