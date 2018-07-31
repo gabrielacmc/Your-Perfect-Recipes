@@ -18,7 +18,7 @@ class Recipes extends React.Component {
       origin: "",
       labels: "",
       selectedOption:"share",
-      user:'gabi'
+      user:'test'
 
     };
   }
@@ -27,12 +27,8 @@ class Recipes extends React.Component {
   componentDidMount(user) {
     
     user = this.state.user;
-    console.log(user);
-    
     this.loadUserRecipes(user);
 
-    
-    
   }
 
   // Loads all recipes  and sets them to this.state.recipes

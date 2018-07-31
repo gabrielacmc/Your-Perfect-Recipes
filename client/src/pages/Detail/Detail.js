@@ -1,8 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
-import { Input, TextArea, FormBtn, RadioBtn } from "../../components/Form";
-import Jumbotron from "../../components/Jumbotron";
+import { Input, TextArea, FormBtn } from "../../components/Form";
 import API from "../../utils/API";
 
 class Detail extends React.Component {
