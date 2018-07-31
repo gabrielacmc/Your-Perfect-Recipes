@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+//Save a reference to the Schema constructor
 const Schema = mongoose.Schema;
 
+//Using the Schema constructor, create a new NoteSchema object
 const recipeSchema = new Schema({
   user: {type: String, required: true, },
   name: { type: String, required: true, text: true },

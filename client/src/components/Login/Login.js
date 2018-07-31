@@ -36,6 +36,7 @@ export default class SignInScreen extends Component {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       (user) => this.setState({ isSignedIn: !!user })
     );
+    console.log(this.state.user);
   }
 
   //Make sure we un-register Firebase observers when the component unmounts.
@@ -52,7 +53,7 @@ export default class SignInScreen extends Component {
   getUserInfo = user => {
     console.log(user);
     API.getUserInfo(user)
-      .then(res => this.setState({ loginName: "" }))
+      .then(res => this.setState.user({ loginName: "" }))
       .catch(err => console.log(err + "failed to get login"));
   };
 
