@@ -43,21 +43,21 @@ export default class SignInScreen extends Component {
     this.unregisterAuthObserver();
   }
 
-  saveLogin = (name, uid) => {
-    API.saveLogin({ loginName: name, uid }).then(() => {
-      this.getUserInfo(this.state.uid);
+  saveLogin = (name, user) => {
+    API.saveLogin({ loginName: name, user }).then(() => {
+      this.getUserInfo(this.state.user);
     });
   };
 
-  getUserInfo = uid => {
-    console.log(uid);
-    API.getUserInfo(uid)
-      .then(res => this.setState({ lName: "" }))
+  getUserInfo = user => {
+    console.log(user);
+    API.getUserInfo(user)
+      .then(res => this.setState({ loginName: "" }))
       .catch(err => console.log(err + "failed to get login"));
   };
 
-  deleteUserInfo = watchId => {
-    API.deleteUserInfo(watchId).then(res => this.getUserInfo(this.state.uid));
+  deleteUserInfo = user => {
+    API.deleteUserInfo(user).then(res => this.getUserInfo(this.state.user));
   };
 
   render() {
