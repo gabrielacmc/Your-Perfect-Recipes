@@ -5,22 +5,23 @@ import "./CardBtn.css";
 class CardBtn extends React.Component {
 
   render () {
-    const { onClick, dataValue, style } = this.props
+    const { onClick, style } = this.props
 
     return (
       <button
         onClick={onClick}
-        className={`card-btn ${dataValue}`}
+        className={`card-btn`}
         {...style}
-        data-value={dataValue}
-      />
+        // data-value={dataValue}
+      >
+      {this.props.children}
+      </button>
     );
   }
 }
 
 CardBtn.propTypes = {
   onClick: PropTypes.func,
-  dataValue: PropTypes.string,
   style: PropTypes.object
 }
 

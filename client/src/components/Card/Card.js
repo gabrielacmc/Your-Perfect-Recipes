@@ -8,47 +8,60 @@ import "./Card.css";
 
 class Card extends React.Component {
 
-  render () {
-    const { image, recipeName, recipeLink, showCard } = this.props
+  render() {
+    const { image, recipeName, recipeLink, recipeIngredients, showCard, handleBtnClick, like, save, index } = this.props
 
     return (
       // fix loading spinner
       <div>
-        <ul className="recipeResults">
+        <ul className={`recipeResults ${index}`}>
           <div className="cardtitle">
             {recipeName}
-            <br/>
+            <br />
             <a href={recipeLink} target="_blank">View the full recipe!</a>
           </div>
-          
+
           <div
             className="card"
             style={{
               backgroundImage: image ? `url(${image})` : "none"
             }}
           >
-            
-            {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />}
+            <ul className="ingredientList">
+              <p className="ingredientHeader">Ingredients</p>
+              {recipeIngredients.map((ingredients, index) => (
+                <li key={index}> {ingredients} </li>
+              ))}
+            </ul>
+
+            {/* {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />} */}
 
           </div>
 
           <div className="cardbottom">
 
-          <CardBtn
-              // style={{ opacity: image ? 1 : 0 }}
-              // onClick={handleBtnClick}
-              dataValue="heart"
+            <CardBtn
+              // className={ {like} ? "liked" : "heartBtn"}
+              className={`heartBtn ${like}`}
+              style={{ opacity: image ? 1 : 0 }}
+              onClick={this.props.handleBtnClick}
+ 
             >
-                      <i class="fas fa-heart"></i>
-           </CardBtn>
+              <i className={`fas fa-heart ${like}`} data-value="heart" like={like}></i>
+            </CardBtn>
 
             <CardBtn
-              // style={{ opacity: image ? 1 : 0 }}
-              // onClick={handleBtnClick}
-              dataValue="bookmark"
+              // className={ {save} ? "saved" : "bookmarkBtn"}
+              className={`bookmarkBtn ${save}`}
+              style={{ opacity: image ? 1 : 0 }}
+              onClick={this.props.handleBtnClick}
+              save={save}
             >
-                       <i class="fas fa-bookmark"></i>
+              <i className={`fas fa-bookmark ${save}`} data-value="bookmark"></i>
             </CardBtn>
+
+
+
           </div>
 
         </ul>
@@ -62,8 +75,12 @@ Card.propTypes = {
   image: PropTypes.string,
   recipeName: PropTypes.string,
   recipeLink: PropTypes.string,
-  showCard: PropTypes.string
-  // handleBtnClick: PropTypes.func
+  recipeIngredients: PropTypes.array,
+  showCard: PropTypes.bool,
+  handleBtnClick: PropTypes.func,
+  like: PropTypes.string,
+  save: PropTypes.string,
+  index: PropTypes.number
 }
 
 export default Card;

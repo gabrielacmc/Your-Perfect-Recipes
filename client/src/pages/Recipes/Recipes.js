@@ -1,9 +1,10 @@
 import React from "react";
+import Jumbotron from "../../components/Jumbotron";
+import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn, RadioBtn } from "../../components/Form";
-// import SignInScreen from "../Login"
+import { Input, TextArea, FormBtn } from "../../components/Form";
 
 // S A V E D   R E C I P E S   L I S T
 
@@ -17,36 +18,23 @@ class Recipes extends React.Component {
       description: "",
       origin: "",
       labels: "",
-      selectedOption:"share",
-      user:'test'
-
+      user: ""
     };
   }
 
   // When the component mounts, load all recipes and save them to this.state.recipes
-  componentDidMount(user) {
-    
-    user = this.state.user;
-    this.loadUserRecipes(user);
-
+  componentDidMount() {
+    this.loadRecipes();
   }
 
   // Loads all recipes  and sets them to this.state.recipes
   loadRecipes = () => {
     API.getRecipes()
       .then(res =>
-        this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+        this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin:"", labels:""  })
       )
       .catch(err => console.log(err));
   };
-
-  loadUserRecipes = (user) => {
-    API.getRecipesUser(user)
-    .then(res =>
-      this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
-    )
-    .catch(err => console.log(err));
-  }
 
   // Deletes a recipe from the database with a given id, then reloads recipes from the db
   deleteRecipes = id => {
@@ -67,32 +55,28 @@ class Recipes extends React.Component {
   // Then reload recipes from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.name && this.state.ingredients && this.state.description ) {
+    if (this.state.name && this.state.ingredients && this.state.description) {
       API.saveRecipes({
-        user: "gabi",
+        //to add username to db
+        user: firebase.auth().currentUser,
         name: this.state.name,
         ingredients: this.state.ingredients,
         description: this.state.description,
-        sharable: this.state.selectedOption==="share"
+        sharable: true,
       })
         .then(res => this.loadRecipes())
         .catch(err => console.log(err));
     }
   };
 
-  handleOptionChange = changeEvent => {
-    this.setState({
-      selectedOption: changeEvent.target.value
-    });
-  };
-
-
   render() {
     return (
       <Container fluid>
         <Row>
           <Col size="md-6">
-
+            <Jumbotron>
+              <h1>Enter New Recipe</h1>
+            </Jumbotron>
             <form>
               <Input
                 value={this.state.name}
@@ -100,7 +84,7 @@ class Recipes extends React.Component {
                 name="name"
                 placeholder="Name (required)"
               />
-              <TextArea
+              <Input
                 value={this.state.ingredients}
                 onChange={this.handleInputChange}
                 name="ingredients"
@@ -112,40 +96,29 @@ class Recipes extends React.Component {
                 name="description"
                 placeholder="Description (required)"
               />
-              <div className="radio">
-                <RadioBtn
-                  onChange={this.handleOptionChange}
-                  name="share"
-                  value="share"
-                  checked = {this.state.selectedOption==="share"}>
-                  Share
-              </RadioBtn>
-                <RadioBtn
-                  onChange={this.handleOptionChange}
-                  name="noShare"
-                  value="noShare"
-                  checked = {this.state.selectedOption==="noShare" }>
-                  Do not Share
-              </RadioBtn>
-              </div>
-                <FormBtn
-                  disabled={!(this.state.name && this.state.ingredients && this.state.description)}
-                  onClick={this.handleFormSubmit}
-                >
-                  Submit Recipe
+              <FormBtn
+                disabled={!(this.state.name && this.state.ingredients && this.state.description)}
+                onClick={this.handleFormSubmit}
+              >
+                Submit Recipe
               </FormBtn>
             </form>
           </Col>
-            <Col size="md-6 sm-12">
-            
+          <Col size="md-6 sm-12">
+            <Jumbotron>
+              <h1>Recipes On My List</h1>
+            </Jumbotron>
             {this.state.recipes.length ? (
               <List>
                 {this.state.recipes.map(recipes => {
                   return (
-                    <ListItem key={recipes._id}
-                    recipeLink={"/recipes/" + recipes._id}
-                    recipeName={recipes.name} 
-                    deleteRecipe={() => this.deleteRecipes(recipes._id)}>
+                    <ListItem key={recipes._id}>
+                      <a href={"/recipes/" + recipes._id}>
+                        <strong>
+                          {recipes.name}
+                        </strong>
+                      </a>
+                      <DeleteBtn onClick={() => this.deleteRecipes(recipes._id)} />
                     </ListItem>
                   );
                 })}
@@ -156,8 +129,8 @@ class Recipes extends React.Component {
           </Col>
         </Row>
       </Container>
-        );
-      }
-    }
-    
-    export default Recipes;
+    );
+  }
+}
+
+export default Recipes;
