@@ -71,11 +71,14 @@ class TestPage extends React.Component {
                 description: this.state.description,
                 sharable: this.state.selectedOption === "share"
             })
-                .then(res => this.loadUserRecipes(this.state.user))
+                .then(res => {
+                    this.loadUserRecipes(this.state.user);
+                    this.handleUpdate(false)
+                })
                 .catch(err => console.log(err));
         }
     };
-
+  
     //When a user searches for something, use the API to search for the term for that user
     handleSearchSubmit = (event, user) => {
         event.preventDefault();
@@ -83,7 +86,7 @@ class TestPage extends React.Component {
         if (this.state.queryString) {
             API.getRecipesUserQuery(user, this.state.queryString)
                 .then(res => {
-                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" });
                 }
                     // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
                 ).then(
@@ -99,14 +102,17 @@ class TestPage extends React.Component {
         });
     };
 
+
     buttonCreate = () => (
-        <button onClick={() => this.handleUpdate(true)}>Create Recipe</button>
+        <Col size="md-5 sm-12">
+        <button className="btn btn-success" onClick={() => this.handleUpdate(true)}>Create Recipe</button>
+        </Col>
 
     )
 
 
     createRecipe = () => (
-        <Col size="md-6 sm-12">
+        <Col size="md-5 sm-12">
             <form>
                 <Input
                     value={this.state.name}
@@ -126,11 +132,13 @@ class TestPage extends React.Component {
                     name="description"
                     placeholder="Description (required)"
                 />
+                <button className="btn btn-success" onClick={() => this.handleUpdate(false)}>Cancel</button>
                 <FormBtn
                     disabled={!(this.state.name && this.state.ingredients && this.state.description)}
                     onClick={this.handleFormSubmit}>
                     Submit Recipe
                      </FormBtn>
+                    
             </form>
         </Col>
     );
@@ -138,7 +146,7 @@ class TestPage extends React.Component {
 
 
     favRecipe = () => (
-        <div className="md-6 sm-12 offset-6">
+        <div className="col-md-7 col-sm-12">
             <Row>
                 <Col size="md-4 sm-12">
                     <form>
@@ -158,7 +166,8 @@ class TestPage extends React.Component {
                 </Col>
             </Row>
             {this.state.searchRecipes.length ? (
-                <List>
+                <Col size="md-3 sm-12">
+                {/* <List> */}
                     {this.state.searchRecipes.map(searchRecipes => {
                         return (
                             <ListItem key={searchRecipes._id}
@@ -169,9 +178,11 @@ class TestPage extends React.Component {
 
                         );
                     })}
-                </List>
+                {/* </List> */}
+                </Col>
             ) : (
-                    <List>
+                <Col size="md-3 sm-12">
+                    {/* <List> */}
                         {this.state.recipes.map(recipes => {
                             return (
                                 <ListItem key={recipes._id}
@@ -182,19 +193,26 @@ class TestPage extends React.Component {
 
                             );
                         })}
-                    </List>)}
+                    {/* </List> */}
+                    </Col>)}
         </div>
 
     )
 
 
     render() {
-        if (this.state.isUpdate) 
+        if (this.state.isUpdate)
             return (
-                [this.createRecipe(), this.favRecipe()]
+                <Row>
+                    {this.createRecipe()}
+                    {this.favRecipe()}
+                </Row>
             )
         else return (
-            [this.buttonCreate(), this.favRecipe()]
+            <Row>
+                {this.buttonCreate()}
+                {this.favRecipe()}
+            </Row>
         );
     }
 
