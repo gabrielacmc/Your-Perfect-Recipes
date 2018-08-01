@@ -16,7 +16,6 @@ class ListItem extends React.Component {
 
     return (
       // fix loading spinner
-      <div>
         <ul className="recipeResults">
           <div className="cardtitle">
             {recipeName}
@@ -37,7 +36,6 @@ class ListItem extends React.Component {
           </div>
 
         </ul>
-      </div>
       // )
     );
   }

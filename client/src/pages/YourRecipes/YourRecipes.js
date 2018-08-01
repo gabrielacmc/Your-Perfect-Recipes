@@ -78,7 +78,7 @@ class TestPage extends React.Component {
                 .catch(err => console.log(err));
         }
     };
-  
+
     //When a user searches for something, use the API to search for the term for that user
     handleSearchSubmit = (event, user) => {
         event.preventDefault();
@@ -105,7 +105,7 @@ class TestPage extends React.Component {
 
     buttonCreate = () => (
         <Col size="md-5 sm-12">
-        <button className="btn btn-success" onClick={() => this.handleUpdate(true)}>Create Recipe</button>
+            <button className="btn btn-success" onClick={() => this.handleUpdate(true)}>Create Recipe</button>
         </Col>
 
     )
@@ -138,7 +138,7 @@ class TestPage extends React.Component {
                     onClick={this.handleFormSubmit}>
                     Submit Recipe
                      </FormBtn>
-                    
+
             </form>
         </Col>
     );
@@ -166,35 +166,40 @@ class TestPage extends React.Component {
                 </Col>
             </Row>
             {this.state.searchRecipes.length ? (
-                <Col size="md-3 sm-12">
-                {/* <List> */}
-                    {this.state.searchRecipes.map(searchRecipes => {
-                        return (
-                            <ListItem key={searchRecipes._id}
-                                recipeLink={"/recipes/" + searchRecipes._id}
-                                recipeName={searchRecipes.name}
-                                deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
-                            </ListItem>
-
-                        );
-                    })}
-                {/* </List> */}
-                </Col>
-            ) : (
-                <Col size="md-3 sm-12">
-                    {/* <List> */}
-                        {this.state.recipes.map(recipes => {
+                    <Col size="md-12 sm-12">
+                        {/* <List> */}
+                        {this.state.searchRecipes.map(searchRecipes => {
                             return (
-                                <ListItem key={recipes._id}
-                                    recipeLink={"/recipes/" + recipes._id}
-                                    recipeName={recipes.name}
-                                    deleteRecipe={() => this.deleteRecipes(recipes._id)}>
+                                <ListItem key={searchRecipes._id}
+                                    recipeLink={"/recipes/" + searchRecipes._id}
+                                    recipeName={searchRecipes.name}
+                                    deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
                                 </ListItem>
 
                             );
                         })}
-                    {/* </List> */}
-                    </Col>)}
+                        {/* </List> */}
+                    </Col>
+
+
+
+            ) : (
+
+                        <Col size="md-12 sm-12">
+                            {/* <List> */}
+                            {this.state.recipes.map(recipes => {
+                                return (
+                                    <ListItem key={recipes._id}
+                                        recipeLink={"/recipes/" + recipes._id}
+                                        recipeName={recipes.name}
+                                        deleteRecipe={() => this.deleteRecipes(recipes._id)}>
+                                    </ListItem>
+
+                                );
+                            })}
+                            {/* </List> */}
+                        </Col>
+                )}
         </div>
 
     )
