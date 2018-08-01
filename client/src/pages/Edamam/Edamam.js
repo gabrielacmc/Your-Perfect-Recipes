@@ -82,31 +82,48 @@ class EdamamSearch extends React.Component {
   };
 
   //FIXXXXXXX :(
-  handleBtnClick = (event, id) => {
-    // Get the data-value of the clicked button
-    const btnType = event.target.attributes.getNamedItem("data-value").value;
-    console.log(btnType);
-    console.log(this.state);
-    // const newState = { ...this.state };
+  handleBtnClick = (event) => {
+    event.preventDefault();
+    // Get the data from  the clicked button
+    const cardLink = event.target.attributes.getNamedItem("data-recipelink").value;
+    const cardName = event.target.attributes.getNamedItem("data-recipename").value;
+    const cardIngredients = event.target.attributes.getNamedItem("data-recipeingredients").value;
+    const cardLike = event.target.attributes.getNamedItem("data-like").value;
+    console.log(`${cardLink}, 
+    ${cardName}, 
+    ${cardIngredients}, 
+    ${cardLike}`);
+
     //mark recipe as "liked"
-    if (btnType === "heart") {
       this.setState(prevState => ({
         like: !prevState.like
       }));
-      // saveEdamamRecipe();
+      
+      console.log(this.state.like); 
 
-      console.log(this.props);  
-      console.log(searchResults);
-      // recipeFunctions.create( searchResults.)
-    } else if (btnType === "bookmark") {
-      this.setState(prevState => ({
-        save: !prevState.save
-      }));
-    }    
+      API.saveEdamam({
+        user: "test",
+        name: cardName,
+        ingredients: cardIngredients,
+        description: cardLink,
+        sharable: true
+      })
+
   };
+
+  // updateRecipe = () => {
+  //   console.log("test");
+    // if (cardLike === "liked") {
+    //   console.log("Recipe has been liked!");
+    //   // storeRecipe();
+    // } else if (cardLike === "unliked") {
+    //   console.log("Recipe has been unliked!");
+    //   // deleteRecipe();
+    // }
+  // };
   
   saveEdamamRecipe = () => {
-console.log("test");
+  console.log("test");
   };
 
   render() {

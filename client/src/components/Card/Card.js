@@ -47,7 +47,16 @@ class Card extends React.Component {
               onClick={this.props.handleBtnClick}
  
             >
-              <i className={`fas fa-heart ${like}`} data-value="heart" like={like}></i>
+              <i 
+                className={`fas fa-heart ${like}`} 
+                data-value="heart" 
+                data-like={like} 
+                data-image={image}
+                data-recipename={recipeName}
+                data-recipelink={recipeLink}
+                data-recipeingredients={recipeIngredients}
+
+              ></i>
             </CardBtn>
 
             <CardBtn
@@ -57,7 +66,16 @@ class Card extends React.Component {
               onClick={this.props.handleBtnClick}
               save={save}
             >
-              <i className={`fas fa-bookmark ${save}`} data-value="bookmark"></i>
+              <i 
+                className={`fas fa-bookmark ${save}`} 
+                data-value="bookmark"
+                data-save={save} 
+                data-image={image}
+                data-recipename={recipeName}
+                data-recipelink={recipeLink}
+                data-recipeingredients={recipeIngredients}
+
+              ></i>
             </CardBtn>
 
 
@@ -79,8 +97,7 @@ Card.propTypes = {
   showCard: PropTypes.bool,
   handleBtnClick: PropTypes.func,
   like: PropTypes.string,
-  save: PropTypes.string,
-  index: PropTypes.number
+  save: PropTypes.string
 }
 
 export default Card;
