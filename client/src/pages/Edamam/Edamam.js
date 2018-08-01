@@ -25,7 +25,9 @@ class EdamamSearch extends React.Component {
       // recipeLink: "",
       showCard: false,
       like: false,
-      save: false
+      save: false,
+      dbID: "",
+      recipeSearchRes: []
     };
     this.handleBtnClick = this.handleBtnClick.bind(this);
   }
@@ -87,6 +89,7 @@ class EdamamSearch extends React.Component {
     // Get the data from  the clicked button
     const cardLink = event.target.attributes.getNamedItem("data-recipelink").value;
     const cardName = event.target.attributes.getNamedItem("data-recipename").value;
+    const cardImage = event.target.attributes.getNamedItem("data-image").value;
     const cardIngredients = event.target.attributes.getNamedItem("data-recipeingredients").value;
     const cardLike = event.target.attributes.getNamedItem("data-like").value;
     console.log(`${cardLink}, 
@@ -101,26 +104,26 @@ class EdamamSearch extends React.Component {
       
       console.log(this.state.like); 
 
-      API.saveEdamam({
-        user: "test",
-        name: cardName,
-        ingredients: cardIngredients,
-        description: cardLink,
-        sharable: true
-      })
+      if (cardLike === "unliked") {
+        API.saveEdamam({
+          user: "test",
+          name: cardName,
+          ingredients: cardIngredients,
+          description: cardLink,
+          image: cardImage,
+          sharable: true
+      });
+    } else if (cardLike === "liked") {
+        API.findEdamamID(cardLink)
+        .then(res => {
+          this.setState({ recipeSearchRes: res.data, id: "" })
+      }).catch(err => console.log(err));
+        console.log("DB id:" + this.state.id);
+        API.deleteEdamam(this.state.id);
+    }
 
   };
 
-  // updateRecipe = () => {
-  //   console.log("test");
-    // if (cardLike === "liked") {
-    //   console.log("Recipe has been liked!");
-    //   // storeRecipe();
-    // } else if (cardLike === "unliked") {
-    //   console.log("Recipe has been unliked!");
-    //   // deleteRecipe();
-    // }
-  // };
   
   saveEdamamRecipe = () => {
   console.log("test");

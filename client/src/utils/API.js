@@ -38,6 +38,10 @@ export default {
   saveEdamam: function (recipeData) {
     return axios.post("/api/recipes", recipeData);
   },
+  findEdamamID: function (cardLink) {
+    // return axios.get("api/recipes/search/" + {params:{searchQuery:cardLink}});
+    console.log({params:{searchQuery:cardLink}});
+  },
   deleteEdamam: function (id) {
     return axios.delete("/api/recipes/" + id);
   }

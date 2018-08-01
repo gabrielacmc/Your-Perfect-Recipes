@@ -46,6 +46,12 @@ const recipeFunctions = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  findByEdamamLink: function (req, res) {
+    db.Recipe
+    .find({ 'description': req})
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   }
 }
 
@@ -62,6 +68,8 @@ router.get("/api/recipes/search/:user", recipeFunctions.findByUserQuery)
 router.get("/api/recipes/user/:user", recipeFunctions.findByUser)
 
 router.patch("/api/recipes/:id", recipeFunctions.update)
+
+router.get("/api/recipes/search/:description", recipeFunctions.findByEdamamLink)
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {
