@@ -114,23 +114,23 @@ class EdamamSearch extends React.Component {
           sharable: true
       });
     } else if (cardLike === "liked") {
-        this.deleteEdamam(cardLink);
+        this.deleteEdamam(cardName);
     }
 
   };
 
   
-deleteEdamam = cardLink => {
+deleteEdamam = cardName => {
   console.log("test");
-  API.findEdamamID(cardLink)
+  API.findEdamamID(cardName)
         .then(res => {
-          // this.setState({ recipeSearchRes: res.data, dbID: "" })
-          console.log(res.data)
+          API.deleteEdamam(res.data[0]._id)
+          // console.log(res.data[0]._id)
       }).catch(err => console.log(err));
-        console.log("DB id:" + this.state.dbID);
+        // console.log("DB id:" + this.state.dbID);
         // API.deleteEdamam(this.state.dbID);
   };
-
+ 
   render() {
     return (
       <Container fluid>

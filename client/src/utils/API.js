@@ -30,20 +30,24 @@ export default {
   patchRecipes: function (id, recipeData) {
     return axios.patch("/api/recipes/" + id, recipeData);
   },
+  // Searches Edamam API
   searchEdamam: function (queryString) {
     // console.log(queryString);
     return axios.get("https://api.edamam.com/search?q=" + queryString + "&app_id=a5ee7877&app_key=385a3e92adcbf250abaab079e4e705f5");
     // console.log("API hit");
   },
+  // Saves Edamam API recipes to our db
   saveEdamam: function (recipeData) {
     return axios.post("/api/recipes", recipeData);
   },
-  findEdamamID: function (cardLink) {
+  // Searches our db for previously saved Edamam recipes -***** need to add user
+  findEdamamID: function (cardName) {
     // console.log(cardLink);
-    return axios.get("/api/recipes/search/" + cardLink);
+    return axios.get("/api/recipes/search/edamam/" + cardName);
     // console.log({params:{searchQuery:cardLink}});
   },
-  deleteEdamam: function (description) {
-    return axios.delete("/api/recipes/" + description);
+  // Deletes saved Edamam recipe from our db
+  deleteEdamam: function (id) {
+    return axios.delete("/api/recipes/edamam/" + id);
   }
 };
