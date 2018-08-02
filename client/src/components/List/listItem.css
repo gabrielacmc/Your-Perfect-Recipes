@@ -47,3 +47,10 @@
   cursor: pointer;
 
 }
+
+.recipeResults{
+  width: 250px;
+  padding: 0px;
+  float: left;
+  margin-left:12px;
+}
