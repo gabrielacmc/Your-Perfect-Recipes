@@ -39,10 +39,11 @@ export default {
     return axios.post("/api/recipes", recipeData);
   },
   findEdamamID: function (cardLink) {
-    // return axios.get("api/recipes/search/" + {params:{searchQuery:cardLink}});
-    console.log({params:{searchQuery:cardLink}});
+    // console.log(cardLink);
+    return axios.get("/api/recipes/search/" + cardLink);
+    // console.log({params:{searchQuery:cardLink}});
   },
-  deleteEdamam: function (id) {
-    return axios.delete("/api/recipes/" + id);
+  deleteEdamam: function (description) {
+    return axios.delete("/api/recipes/" + description);
   }
 };

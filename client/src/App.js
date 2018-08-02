@@ -21,7 +21,7 @@ const App = () =>
   <Router>
     <div>
       <Nav />
-      <Jumbotron />
+      {/* <Jumbotron /> */}
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/home" component={Home} />
