@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "../../components/Grid";
-import fire from './config/Fire';
+import fire from '../../components/config/Fire'
 
   class Home extends Component {
     constructor(props) {
