@@ -14,8 +14,8 @@ class TestPage extends React.Component {
             recipes: [],
             searchRecipes: [],
             name: "",
-            ingredients: "",
-            description: "",
+            ingredients: [],
+            description: [],
             origin: "",
             labels: "",
             image: "",
@@ -55,7 +55,7 @@ class TestPage extends React.Component {
     loadUserRecipes = (user) => {
         API.getRecipesUser(user)
             .then(res =>
-                this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+                this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "", image:"" })
             )
             .catch(err => console.log(err));
     }
@@ -80,11 +80,12 @@ class TestPage extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.name && this.state.ingredients && this.state.description) {
+
             API.saveRecipes({
                 user: this.state.user,
                 name: this.state.name,
-                ingredients: this.state.ingredients,
-                description: this.state.description,
+                ingredients: this.state.ingredients.split("\n"),
+                description: this.state.description.split("\n"),
                 image: this.state.image,
                 origin: this.state.origin,
                 sharable: this.state.selectedOption === "share"

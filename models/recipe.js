@@ -6,9 +6,9 @@ const Schema = mongoose.Schema;
 const recipeSchema = new Schema({
   user: {type: String, required: true, },
   name: { type: String, required: true, text: true },
-  ingredients: { type: String, required: true, text: true },
-  description: { type: String, required: true, text: true },
-  // key: {type: Number },
+  ingredients: { type: Array, required: true, text: true },
+  description: { type: Array, required: true, text: true },
+  image: {type: String },
   sharable: {type: Boolean, required: true},
   origin: { type : String},
   labels: { type: String, text: true},
