@@ -3,24 +3,9 @@ import React, { Component } from "react";
 import firebase from "../config/Fire";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // import "./dashboard.css";
+import {withMultiContext} from "with-context";
+import { AppContext } from '../AppProvider/AppProvider.js';
 
-
-export const AppContext = React.createContext();
-let userLogin
-
-export class AppProvider extends Component{
-  
-  state = {
-    userLogin : userLogin
-  }
-  render(){
-    return 
-      <AppContext.Provider value = {this.state}>
-        {this.props.children}
-      </AppContext.Provider>
-
-  }
-}
 
 class SignInScreen extends Component {
   state = {
@@ -50,9 +35,10 @@ class SignInScreen extends Component {
   //Listen to the Firebase Auth state and set the local state
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-      (user) => {this.setState({ isSignedIn: !!user });
-      userLogin = user.email}
-    
+      (user) => {
+        this.setState({ isSignedIn: !!user });
+        this.props.appContext.setUser(user.email);
+      }
     );
 
   }
@@ -94,6 +80,6 @@ class SignInScreen extends Component {
   }
 }
 
-export default SignInScreen;
+export default withMultiContext({ appContext: AppContext  })(SignInScreen);
 
 // export const userLogin

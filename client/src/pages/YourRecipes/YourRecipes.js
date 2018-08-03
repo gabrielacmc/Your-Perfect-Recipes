@@ -3,15 +3,9 @@ import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
 import { ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
-import AppContext from "../../components/Login"
 
-
-const userEmail = () => (
-    <AppContext.Consumer>
-        {(context) => context.userLogin}
-    </AppContext.Consumer>
-
-)
+import {withMultiContext} from "with-context";
+import { AppContext } from '../../components/AppProvider/AppProvider.js';
 
 class TestPage extends React.Component {
     constructor(props) {
@@ -27,13 +21,22 @@ class TestPage extends React.Component {
             image: "",
             selectedOption: "share",
             queryString: "",
-            user: userEmail
+            user: null
         };
     }
 
-    componentDidMount(user) {
+    componentWillReceiveProps(nextProps) {
+        console.log('recipes receiving user', nextProps.appContext.user);
+        if (nextProps.appContext.user) {
+            this.setState({ user: nextProps.appContext.user });
+        }
+    }
 
-        user = this.state.user;
+    componentDidMount(user) {
+        console.log('recipes have user', this.props.appContext.user);
+        if (this.props.appContext.user) {
+            this.setState({ user: this.props.appContext.user });
+        }
         this.loadUserRecipes(user);
         // console.log(UserContext)
 
@@ -249,4 +252,4 @@ class TestPage extends React.Component {
 
 }
 
-export default TestPage;
+export default withMultiContext({ appContext: AppContext })(TestPage);

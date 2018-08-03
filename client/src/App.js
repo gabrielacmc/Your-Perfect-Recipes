@@ -8,7 +8,7 @@ import NoMatch from "./pages/NoMatch";
 import Home from "./pages/Home";
 import EdamamSearch from "./pages/Edamam";
 import Nav from "./components/Nav";
-import AppProvider from "./components/Login"
+import AppProvider from "./components/AppProvider"
 // import Jumbotron from "./components/Jumbotron";
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,7 +18,7 @@ import AppProvider from "./components/Login"
 
 const App = () =>
 <AppProvider>
-
+    <React.Fragment>
     <Router>
       <div>
         <Nav />
@@ -36,6 +36,7 @@ const App = () =>
         </Switch>
       </div>
     </Router>
+    </React.Fragment>
     </AppProvider>
 
 
