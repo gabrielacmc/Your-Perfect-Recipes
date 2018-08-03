@@ -8,6 +8,7 @@ import NoMatch from "./pages/NoMatch";
 import Home from "./pages/Home";
 import EdamamSearch from "./pages/Edamam";
 import Nav from "./components/Nav";
+import AppProvider from "./components/Login"
 // import Jumbotron from "./components/Jumbotron";
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,21 +17,28 @@ import Nav from "./components/Nav";
 
 
 const App = () =>
-  <Router>
-    <div>
-      <Nav />
-      {/* <Jumbotron /> */}
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
-        {/* Can we certain paths only show if person is logged in? */}
-        <Route exact path="/your-recipes" render={() => <YourRecipes gabi />} />
-        <Route exact path="/recipes/:id" component={Detail} />
-        <Route exact path="/edamamrecipes" component={EdamamSearch} />
-        <Route component={NoMatch} />
-      </Switch>
-    </div>
-  </Router>;
+<AppProvider>
+
+    <Router>
+      <div>
+        <Nav />
+        {/* <Jumbotron /> */}
+        <Switch>
+
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          {/* Can we certain paths only show if person is logged in? */}
+          <Route exact path="/your-recipes" render={() => <YourRecipes gabi />} />
+          <Route exact path="/recipes/:id" component={Detail} />
+          <Route exact path="/edamamrecipes" component={EdamamSearch} />
+          <Route component={NoMatch} />
+
+        </Switch>
+      </div>
+    </Router>
+    </AppProvider>
+
+
 export default App;
 
 

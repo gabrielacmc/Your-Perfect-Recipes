@@ -3,10 +3,15 @@ import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
 import { ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
-// import {UserContext} from '../../components/Login';
+import AppContext from "../../components/Login"
 
 
+const userEmail = () => (
+    <AppContext.Consumer>
+        {(context) => context.userLogin}
+    </AppContext.Consumer>
 
+)
 
 class TestPage extends React.Component {
     constructor(props) {
@@ -19,9 +24,10 @@ class TestPage extends React.Component {
             description: "",
             origin: "",
             labels: "",
+            image: "",
             selectedOption: "share",
             queryString: "",
-            user: 'test'
+            user: userEmail
         };
     }
 
@@ -72,6 +78,8 @@ class TestPage extends React.Component {
                 name: this.state.name,
                 ingredients: this.state.ingredients,
                 description: this.state.description,
+                image: this.state.image,
+                origin: this.state.origin,
                 sharable: this.state.selectedOption === "share"
             })
                 .then(res => {
@@ -89,7 +97,7 @@ class TestPage extends React.Component {
         if (this.state.queryString) {
             API.getRecipesUserQuery(user, this.state.queryString)
                 .then(res => {
-                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" });
+                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", image: "", labels: "" });
                 }
                     // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
                 ).then(
@@ -135,6 +143,18 @@ class TestPage extends React.Component {
                     name="description"
                     placeholder="Description (required)"
                 />
+                 <Input
+                    value={this.state.image}
+                    onChange={this.handleInputChange}
+                    name="image"
+                    placeholder="Image URL"
+                />
+                <Input
+                    value={this.state.origin}
+                    onChange={this.handleInputChange}
+                    name="origin"
+                    placeholder="Origin"
+                />
                 <button className="btn btn-success" onClick={() => this.handleUpdate(false)}>Cancel</button>
                 <FormBtn
                     disabled={!(this.state.name && this.state.ingredients && this.state.description)}
@@ -176,6 +196,7 @@ class TestPage extends React.Component {
                                 <ListItem key={searchRecipes._id}
                                     recipeLink={"/recipes/" + searchRecipes._id}
                                     recipeName={searchRecipes.name}
+                                    image = {searchRecipes.image}
                                     deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
                                 </ListItem>
 
@@ -195,6 +216,8 @@ class TestPage extends React.Component {
                                     <ListItem key={recipes._id}
                                         recipeLink={"/recipes/" + recipes._id}
                                         recipeName={recipes.name}
+                                        image = {recipes.image}
+
                                         deleteRecipe={() => this.deleteRecipes(recipes._id)}>
                                     </ListItem>
 

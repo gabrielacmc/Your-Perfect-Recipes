@@ -3,7 +3,26 @@ import React, { Component } from "react";
 import firebase from "../config/Fire";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // import "./dashboard.css";
-export default class SignInScreen extends Component {
+
+
+export const AppContext = React.createContext();
+let userLogin
+
+export class AppProvider extends Component{
+  
+  state = {
+    userLogin : userLogin
+  }
+  render(){
+    return 
+      <AppContext.Provider value = {this.state}>
+        {this.props.children}
+      </AppContext.Provider>
+
+  }
+}
+
+class SignInScreen extends Component {
   state = {
     isSignedIn: false, //Local signed-in state.
     // uid: firebase.auth().currentUser.uid
@@ -31,11 +50,10 @@ export default class SignInScreen extends Component {
   //Listen to the Firebase Auth state and set the local state
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-      (user) => this.setState({ isSignedIn: !!user })
-
-    );
-
+      (user) => {this.setState({ isSignedIn: !!user });
+      userLogin = user.email}
     
+    );
 
   }
 
@@ -57,6 +75,8 @@ export default class SignInScreen extends Component {
   // deleteUserInfo = user => {
   //   API.deleteUserInfo(user).then(res => this.getUserInfo(this.state.user));
   // };
+
+
   render() {
     if (!this.state.isSignedIn) {
       return (
@@ -74,10 +94,6 @@ export default class SignInScreen extends Component {
   }
 }
 
+export default SignInScreen;
 
-
-  // export const UserContext = React.createContext(
-  //   username = 'email',
-  //   firstName = 'John',
-  //   lastName = 'Doe'
-  // );
+// export const userLogin
