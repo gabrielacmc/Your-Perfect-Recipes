@@ -60,17 +60,16 @@ export default class SignInScreen extends Component {
   render() {
     if (!this.state.isSignedIn) {
       return (
-        <div>
-          <span>Please sign-in:</span>
+        <span>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
-        </div>
+        </span>
       );
     }
     return (
-      <div>
+      <span>
         <span>Welcome {firebase.auth().currentUser.displayName}! </span>
         <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
-      </div>
+      </span>
     );
   }
 }
