@@ -29,15 +29,19 @@ class TestPage extends React.Component {
         console.log('recipes receiving user', nextProps.appContext.user);
         if (nextProps.appContext.user) {
             this.setState({ user: nextProps.appContext.user });
+
         }
+        this.loadUserRecipes(nextProps.appContext.user);
+
     }
 
     componentDidMount(user) {
         console.log('recipes have user', this.props.appContext.user);
         if (this.props.appContext.user) {
             this.setState({ user: this.props.appContext.user });
+            // this.loadUserRecipes(this.props.appContext.userser);
+
         }
-        this.loadUserRecipes(user);
         // console.log(UserContext)
 
     }
@@ -207,11 +211,7 @@ class TestPage extends React.Component {
                         })}
                         {/* </List> */}
                     </Col>
-
-
-
             ) : (
-
                         <Col size="md-12 sm-12">
                             {/* <List> */}
                             {this.state.recipes.map(recipes => {
@@ -242,12 +242,16 @@ class TestPage extends React.Component {
                     {this.favRecipe()}
                 </Row>
             )
-        else return (
+        else if (this.props.appContext.user)
+        return(
             <Row>
                 {this.buttonCreate()}
                 {this.favRecipe()}
             </Row>
         );
+        else return(
+            <div> Please Sign In!</div>
+        )
     }
 
 }

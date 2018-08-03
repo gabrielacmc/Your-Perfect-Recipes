@@ -27,7 +27,7 @@ const Nav = () =>
 
         </ul>
         <span className="navbar-text">
-<Login/>
+      <Login/>
           </span>
       </div>
 </nav>;

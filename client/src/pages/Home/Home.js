@@ -4,8 +4,7 @@ import CardHome from "../../components/CardHome";
 import Wrapper from "../../components/Wrapper";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+
 
 // import { Col, Row, Container } from "../../components/Grid";
 let searchResults = [];

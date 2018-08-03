@@ -28,7 +28,7 @@ const App = () =>
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           {/* Can we certain paths only show if person is logged in? */}
-          <Route exact path="/your-recipes" render={() => <YourRecipes gabi />} />
+          <Route exact path="/your-recipes" component={YourRecipes} />
           <Route exact path="/recipes/:id" component={Detail} />
           <Route exact path="/edamamrecipes" component={EdamamSearch} />
           <Route component={NoMatch} />

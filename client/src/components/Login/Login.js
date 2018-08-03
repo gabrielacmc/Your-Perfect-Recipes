@@ -37,7 +37,12 @@ class SignInScreen extends Component {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       (user) => {
         this.setState({ isSignedIn: !!user });
+        if (user){
         this.props.appContext.setUser(user.email);
+        }
+        else {
+          this.props.appContext.setUser(null)
+        }
       }
     );
 
