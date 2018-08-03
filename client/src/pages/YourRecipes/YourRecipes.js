@@ -1,8 +1,10 @@
 import React from "react";
 import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
+import { ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+// import {UserContext} from '../../components/Login';
+
 
 
 
@@ -27,6 +29,7 @@ class TestPage extends React.Component {
 
         user = this.state.user;
         this.loadUserRecipes(user);
+        // console.log(UserContext)
 
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import firebase from "../config/Fire";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // import "./dashboard.css";
@@ -21,7 +21,7 @@ export default class SignInScreen extends Component {
       signInSuccessWithAuthResult: () => false
     }
   };
-  
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -32,41 +32,53 @@ export default class SignInScreen extends Component {
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       (user) => this.setState({ isSignedIn: !!user })
+
     );
-    console.log(this.state.user);
+
+    
+
   }
+
   //Make sure we un-register Firebase observers when the component unmounts.
   componentWillUnmount() {
     this.unregisterAuthObserver();
   }
-  saveLogin = (name, user) => {
-    API.saveLogin({ loginName: name, user }).then(() => {
-      this.getUserInfo(this.state.user);
-    });
-  };
-  getUserInfo = user => {
-    console.log(user);
-    API.getUserInfo(user)
-      .then(res => this.setState.user({ loginName: "" }))
-      .catch(err => console.log(err + "failed to get login"));
-  };
-  deleteUserInfo = user => {
-    API.deleteUserInfo(user).then(res => this.getUserInfo(this.state.user));
-  };
+  // saveLogin = (name, user) => {
+  //   API.saveLogin({ loginName: name, user }).then(() => {
+  //     this.getUserInfo(this.state.user);
+  //   });
+  // };
+  // getUserInfo = user => {
+  //   console.log(user);
+  //   API.getUserInfo(user)
+  //     .then(res => this.setState.user({ loginName: "" }))
+  //     .catch(err => console.log(err + "failed to get login"));
+  // };
+  // deleteUserInfo = user => {
+  //   API.deleteUserInfo(user).then(res => this.getUserInfo(this.state.user));
+  // };
   render() {
-    if(!this.state.isSignedIn){
+    if (!this.state.isSignedIn) {
       return (
         <div>
-          <p>Please sign-in:</p>
+          <span>Please sign-in:</span>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
-          </div>
+        </div>
       );
     }
     return (
       <div>
-        <p>Welcome {firebase.auth().currentUser.displayName}! </p>
+        <span>Welcome {firebase.auth().currentUser.displayName}! </span>
         <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
       </div>
     );
   }
 }
+
+
+
+  // export const UserContext = React.createContext(
+  //   username = 'email',
+  //   firstName = 'John',
+  //   lastName = 'Doe'
+  // );
