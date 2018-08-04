@@ -1,12 +1,13 @@
 import React from "react";
 import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
-import { ListItem } from "../../components/List";
+import SavedCards from "../../components/SavedCards";
 import { Input, TextArea, FormBtn } from "../../components/Form";
-// import {UserContext} from '../../components/Login';
+import "./YourRecipes.css";
 
 
-
+import {withMultiContext} from "with-context";
+import { AppContext } from '../../components/AppProvider/AppProvider.js';
 
 class TestPage extends React.Component {
     constructor(props) {
@@ -15,20 +16,34 @@ class TestPage extends React.Component {
             recipes: [],
             searchRecipes: [],
             name: "",
-            ingredients: "",
-            description: "",
+            ingredients: [],
+            description: [],
             origin: "",
             labels: "",
+            image: "",
             selectedOption: "share",
             queryString: "",
-            user: 'test'
+            user: null
         };
     }
 
-    componentDidMount(user) {
+    componentWillReceiveProps(nextProps) {
+        console.log('recipes receiving user', nextProps.appContext.user);
+        if (nextProps.appContext.user) {
+            this.setState({ user: nextProps.appContext.user });
 
-        user = this.state.user;
-        this.loadUserRecipes(user);
+        }
+        this.loadUserRecipes(nextProps.appContext.user);
+
+    }
+
+    componentDidMount(user) {
+        console.log('recipes have user', this.props.appContext.user);
+        if (this.props.appContext.user) {
+            this.setState({ user: this.props.appContext.user });
+            // this.loadUserRecipes(this.props.appContext.userser);
+
+        }
         // console.log(UserContext)
 
     }
@@ -42,7 +57,7 @@ class TestPage extends React.Component {
     loadUserRecipes = (user) => {
         API.getRecipesUser(user)
             .then(res =>
-                this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" })
+                this.setState({ recipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "", image:"" })
             )
             .catch(err => console.log(err));
     }
@@ -67,11 +82,14 @@ class TestPage extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.name && this.state.ingredients && this.state.description) {
+
             API.saveRecipes({
                 user: this.state.user,
                 name: this.state.name,
-                ingredients: this.state.ingredients,
-                description: this.state.description,
+                ingredients: this.state.ingredients.split("\n"),
+                description: this.state.description.split("\n"),
+                image: this.state.image,
+                origin: this.state.origin,
                 sharable: this.state.selectedOption === "share"
             })
                 .then(res => {
@@ -89,7 +107,7 @@ class TestPage extends React.Component {
         if (this.state.queryString) {
             API.getRecipesUserQuery(user, this.state.queryString)
                 .then(res => {
-                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", labels: "" });
+                    this.setState({ searchRecipes: res.data, name: "", ingredients: "", description: "", origin: "", image: "", labels: "" });
                 }
                     // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
                 ).then(
@@ -108,7 +126,9 @@ class TestPage extends React.Component {
 
     buttonCreate = () => (
         <Col size="md-5 sm-12">
+            <div className="createrecipe">
             <button className="btn btn-success" onClick={() => this.handleUpdate(true)}>Create Recipe</button>
+        </div>
         </Col>
 
     )
@@ -135,6 +155,18 @@ class TestPage extends React.Component {
                     name="description"
                     placeholder="Description (required)"
                 />
+                 <Input
+                    value={this.state.image}
+                    onChange={this.handleInputChange}
+                    name="image"
+                    placeholder="Image URL"
+                />
+                <Input
+                    value={this.state.origin}
+                    onChange={this.handleInputChange}
+                    name="origin"
+                    placeholder="Origin"
+                />
                 <button className="btn btn-success" onClick={() => this.handleUpdate(false)}>Cancel</button>
                 <FormBtn
                     disabled={!(this.state.name && this.state.ingredients && this.state.description)}
@@ -153,54 +185,54 @@ class TestPage extends React.Component {
             <Row>
                 <Col size="md-4 sm-12">
                     <form>
+                    <div className="favrecipe">
                         <Input
                             value={this.state.queryString}
                             onChange={this.handleInputChange}
                             name="queryString"
                             placeholder="Search"
                         />
+                        </div>
+                        <div className="favrecipebtn">
                         <FormBtn
                             disabled={!(this.state.queryString)}
                             onClick={this.handleSearchSubmit}
                         >
                             Search!
               </FormBtn>
+              </div>
                     </form>
                 </Col>
             </Row>
             {this.state.searchRecipes.length ? (
                     <Col size="md-12 sm-12">
-                        {/* <List> */}
                         {this.state.searchRecipes.map(searchRecipes => {
                             return (
-                                <ListItem key={searchRecipes._id}
+                                <SavedCards key={searchRecipes._id}
                                     recipeLink={"/recipes/" + searchRecipes._id}
                                     recipeName={searchRecipes.name}
+                                    image = {searchRecipes.image}
+                                    recipeIngredients = {searchRecipes.ingredients}
                                     deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
-                                </ListItem>
+                                </SavedCards>
 
                             );
                         })}
-                        {/* </List> */}
                     </Col>
-
-
-
             ) : (
-
                         <Col size="md-12 sm-12">
-                            {/* <List> */}
                             {this.state.recipes.map(recipes => {
                                 return (
-                                    <ListItem key={recipes._id}
+                                    <SavedCards key={recipes._id}
                                         recipeLink={"/recipes/" + recipes._id}
                                         recipeName={recipes.name}
+                                        image = {recipes.image}
+                                        recipeIngredients = {recipes.ingredients}
                                         deleteRecipe={() => this.deleteRecipes(recipes._id)}>
-                                    </ListItem>
+                                    </SavedCards>
 
                                 );
                             })}
-                            {/* </List> */}
                         </Col>
                 )}
         </div>
@@ -216,14 +248,18 @@ class TestPage extends React.Component {
                     {this.favRecipe()}
                 </Row>
             )
-        else return (
+        else if (this.props.appContext.user)
+        return(
             <Row>
                 {this.buttonCreate()}
                 {this.favRecipe()}
             </Row>
         );
+        else return(
+            <div> Please Sign In!</div>
+        )
     }
 
 }
 
-export default TestPage;
+export default withMultiContext({ appContext: AppContext })(TestPage);

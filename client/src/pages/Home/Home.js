@@ -1,11 +1,10 @@
 import React from "react";
 import Jumbotron from "../../components/Jumbotron"
-import CardHome from "../../components/CardHome";
+import CardHome from "../../components/CardGeneric";
 import Wrapper from "../../components/Wrapper";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+
 
 // import { Col, Row, Container } from "../../components/Grid";
 let searchResults = [];

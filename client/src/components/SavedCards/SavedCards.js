@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "./listItem.css";
+import "./SavedCards.css";
 import DeleteBtn from "../../components/DeleteBtn";
 
 
@@ -12,7 +12,7 @@ class ListItem extends React.Component {
 
 
   render () {
-    const { image, recipeName, recipeLink, deleteRecipe } = this.props
+    const { image, recipeName, recipeLink, deleteRecipe, recipeIngredients } = this.props
 
     return (
       // fix loading spinner
@@ -30,8 +30,12 @@ class ListItem extends React.Component {
               backgroundImage: image ? `url(${image})` : "none"
             }}
           >
-            
-            {/* {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />} */}
+            <ul className="ingredientList">
+              <p className="ingredientHeader">Ingredients</p>
+              {recipeIngredients.map((ingredients, index) => (
+                <li key={index}> {ingredients} </li>
+              ))}
+            </ul>
 
           </div>
 
