@@ -181,22 +181,25 @@ class TestPage extends React.Component {
 
     favRecipe = () => (
         <div className="col-md-7 col-sm-12">
-        <div className="favrecipe">
             <Row>
                 <Col size="md-4 sm-12">
                     <form>
+                    <div className="favrecipe">
                         <Input
                             value={this.state.queryString}
                             onChange={this.handleInputChange}
                             name="queryString"
                             placeholder="Search"
                         />
+                        </div>
+                        <div className="favrecipebtn">
                         <FormBtn
                             disabled={!(this.state.queryString)}
                             onClick={this.handleSearchSubmit}
                         >
                             Search!
               </FormBtn>
+              </div>
                     </form>
                 </Col>
             </Row>
@@ -234,7 +237,6 @@ class TestPage extends React.Component {
                             {/* </List> */}
                         </Col>
                 )}
-        </div>
         </div>
 
     )
