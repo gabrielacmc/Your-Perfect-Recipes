@@ -5,5 +5,9 @@
 
   .favrecipe {
       margin-top: 100px;
-      margin-right: 50px;
+  }
+
+  .favrecipebtn {
+      margin-right: -100px;
+      margin-top: -55px;
   }
