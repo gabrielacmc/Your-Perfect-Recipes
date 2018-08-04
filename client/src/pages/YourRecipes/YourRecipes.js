@@ -3,6 +3,7 @@ import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
 import { ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import "./YourRecipes.css";
 
 import {withMultiContext} from "with-context";
 import { AppContext } from '../../components/AppProvider/AppProvider.js';
@@ -124,7 +125,9 @@ class TestPage extends React.Component {
 
     buttonCreate = () => (
         <Col size="md-5 sm-12">
+            <div className="createrecipe">
             <button className="btn btn-success" onClick={() => this.handleUpdate(true)}>Create Recipe</button>
+        </div>
         </Col>
 
     )
@@ -178,6 +181,7 @@ class TestPage extends React.Component {
 
     favRecipe = () => (
         <div className="col-md-7 col-sm-12">
+        <div className="favrecipe">
             <Row>
                 <Col size="md-4 sm-12">
                     <form>
@@ -230,6 +234,7 @@ class TestPage extends React.Component {
                             {/* </List> */}
                         </Col>
                 )}
+        </div>
         </div>
 
     )
