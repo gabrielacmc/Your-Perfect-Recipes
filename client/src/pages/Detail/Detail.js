@@ -3,19 +3,25 @@ import { Col, Row, Container } from "../../components/Grid";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import API from "../../utils/API";
 
+
 class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recipe: {},
       isUpdate: false,
+      ingredientsList: [],
+      descriptionList : []
     };
   }
   // When this component mounts, grab the book with the _id of this.props.match.params.id
   // e.g. localhost:3000/books/599dcb67f0f16317844583fc
   componentDidMount() {
     API.getRecipesID(this.props.match.params.id)
-      .then(res => this.setState({ recipe: res.data }))
+      .then(res => {this.setState({ recipe: res.data, ingredientsList: res.data.ingredients, descriptionList: res.data.description})
+      
+      console.log(this.state.ingredientsList)}
+    )
       .catch(err => console.log(err));
   }
 
@@ -44,8 +50,6 @@ class Detail extends React.Component {
     }
   };
 
-
-
   getReadOnly = () => (
     <Container fluid>
       <Row>
@@ -58,10 +62,12 @@ class Detail extends React.Component {
       <Row>
         <Col size="md-10 md-offset-1">
           <article>
-            <h1>ingredients</h1>
-            <p>
-              {this.state.recipe.ingredients}
-            </p>
+            <ul>
+              <h1 >Ingredients</h1>
+              {this.state.ingredientsList.map(ingredients => (
+                <li> {ingredients} </li> 
+              ))}
+            </ul>
           </article>
         </Col>
       </Row>
@@ -70,7 +76,9 @@ class Detail extends React.Component {
           <article>
             <h1>Description</h1>
             <p>
-              {this.state.recipe.description}
+            {this.state.descriptionList.map(description => (
+                <li> {description} </li> 
+            ))}
             </p>
           </article>
         </Col>
