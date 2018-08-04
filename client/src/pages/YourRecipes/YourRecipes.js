@@ -135,7 +135,7 @@ class TestPage extends React.Component {
 
 
     createRecipe = () => (
-        <Col size="md-5 sm-12">
+        <Col size="md-6 sm-12">
             <form>
                 <Input
                     value={this.state.name}
@@ -181,7 +181,7 @@ class TestPage extends React.Component {
 
 
     favRecipe = () => (
-        <div className="col-md-7 col-sm-12">
+        <div className="col-md-6 col-sm-12">
             <Row>
                 <Col size="md-4 sm-12">
                     <form>

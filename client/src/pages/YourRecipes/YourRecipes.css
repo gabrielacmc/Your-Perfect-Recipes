@@ -11,3 +11,10 @@
       margin-right: -100px;
       margin-top: -55px;
   }
+
+  .background {
+    background-image: url("../Home/marbleDesktop.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
