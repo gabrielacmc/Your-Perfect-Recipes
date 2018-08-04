@@ -12,7 +12,7 @@ class ListItem extends React.Component {
 
 
   render () {
-    const { image, recipeName, recipeLink, deleteRecipe } = this.props
+    const { image, recipeName, recipeLink, deleteRecipe, recipeIngredients } = this.props
 
     return (
       // fix loading spinner
@@ -30,7 +30,12 @@ class ListItem extends React.Component {
               backgroundImage: image ? `url(${image})` : "none"
             }}
           >
-            
+            <ul className="ingredientList">
+              <p className="ingredientHeader">Ingredients</p>
+              {recipeIngredients.map((ingredients, index) => (
+                <li key={index}> {ingredients} </li>
+              ))}
+            </ul>
             {/* {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />} */}
 
           </div>

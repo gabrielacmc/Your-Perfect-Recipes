@@ -5,6 +5,7 @@ import { ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import "./YourRecipes.css";
 
+
 import {withMultiContext} from "with-context";
 import { AppContext } from '../../components/AppProvider/AppProvider.js';
 
@@ -209,6 +210,7 @@ class TestPage extends React.Component {
                                     recipeLink={"/recipes/" + searchRecipes._id}
                                     recipeName={searchRecipes.name}
                                     image = {searchRecipes.image}
+                                    recipeIngredients = {searchRecipes.ingredients}
                                     deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
                                 </ListItem>
 
@@ -225,7 +227,7 @@ class TestPage extends React.Component {
                                         recipeLink={"/recipes/" + recipes._id}
                                         recipeName={recipes.name}
                                         image = {recipes.image}
-
+                                        recipeIngredients = {recipes.ingredients}
                                         deleteRecipe={() => this.deleteRecipes(recipes._id)}>
                                     </ListItem>
 

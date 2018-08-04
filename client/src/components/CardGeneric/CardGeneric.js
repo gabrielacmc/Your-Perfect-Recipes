@@ -5,6 +5,7 @@ import "./CardGeneric.css";
 
 
 
+
 class Card extends React.Component {
 
   render() {
