@@ -36,7 +36,6 @@ class ListItem extends React.Component {
                 <li key={index}> {ingredients} </li>
               ))}
             </ul>
-            {/* {!image && <i className="fa fa-spinner fa-spin" aria-hidden="true" />} */}
 
           </div>
 

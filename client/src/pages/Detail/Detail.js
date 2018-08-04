@@ -77,7 +77,7 @@ class Detail extends React.Component {
             <h1>Description</h1>
             <p>
             {this.state.descriptionList.map(description => (
-                <li> {description} </li> 
+                <p> {description} </p> 
             ))}
             </p>
           </article>
