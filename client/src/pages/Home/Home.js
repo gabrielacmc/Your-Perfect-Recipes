@@ -4,6 +4,7 @@ import CardHome from "../../components/CardGeneric";
 import Wrapper from "../../components/Wrapper";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
+import "./Home.css";
 
 
 // import { Col, Row, Container } from "../../components/Grid";
@@ -55,10 +56,9 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="background">
                 <Jumbotron />
                 <Container fluid>
-
                     <Row>
 
                         <Col size="md-9">
