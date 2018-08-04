@@ -9,6 +9,10 @@ import { Input, TextArea, FormBtn } from "../../components/Form";
 
 
 let searchResults = [];
+let compareFromEdamam = [];
+let dbResults = [];
+let compareFromDb = [];
+let displayResults = [];
 let cardID = [];
 
 // S E A R C H  E D A M A M   A P I
@@ -62,21 +66,59 @@ class EdamamSearch extends React.Component {
     event.preventDefault();
     if (this.state.queryString) {
       console.log(this.state.queryString);
-      // loadEdamamRecipes(this.state.queryString);
-      // API.searchEdamam(this.state.queryString)
-      //   .then(res => this.loadEdamamRecipes(this.state.queryString))
-      //   .catch(err => console.log(err));
+
+      //makes AJAX call to Edamam API
       API.searchEdamam(this.state.queryString)
         .then(res => {
+          
           searchResults = res.data.hits;
-          // for(var i=0; i<searchResults.length; i++) {
-          //   cardID.push(i);
-          // };
+
+          //stores URL of recipes into array
+          for (var i=0; i<res.data.hits.length; i++) {
+            compareFromEdamam.push(res.data.hits[i].recipe.url);
+          }
+
+          console.log("Edamam Results Array" + compareFromEdamam);
+        
+          //searches our db for Edamam recipes that have already been liked
+          API.searchForLiked()
+          .then(res => {
+
+            dbResults = res.data;
+
+            //stores URL of results into array
+            for (var i=0; i<res.data.length; i++) {
+              compareFromDb.push(res.data[i].description);
+            }
+
+            console.log("Liked Recipes:" + compareFromDb);
+            console.log("searchresults" + searchResults);
+            console.log('dbresults' + dbResults);
+          });
+
+          let pushed = false;
+
+          //check if Edamam results have been saved in our db already, if so then display "liked" version
+          for (var i=0; i<compareFromEdamam; i++) {
+            for (var j=0; j<compareFromDb; j++) {
+              if (compareFromEdamam[i] === compareFromDb[j]) {
+                displayResults.push(dbResults[j])
+                pushed = true;
+              } 
+            }
+            if (pushed === false) {
+              displayResults.push(searchResults[i]);
+            }
+            pushed = false;
+            console.log("final display results:" + displayResults);
+          }
+          
+
           this.setState({ 
             showCard: true
            })
         }
-          // this.setState({ recipeResults: res.data.hits, image: res.data.hits[0].recipe.image, recipeName: res.data.hits[0].recipe.label, recipeLink: res.data.hits[0].recipe.url })
+      
         )
         .catch(err => console.log(err));
 
@@ -111,6 +153,8 @@ class EdamamSearch extends React.Component {
           ingredients: cardIngredients,
           description: cardLink,
           image: cardImage,
+          origin: "Edamam",
+          liked: true,
           sharable: true
       });
     } else if (cardLike === "liked") {

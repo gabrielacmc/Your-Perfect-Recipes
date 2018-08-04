@@ -47,6 +47,17 @@ const recipeFunctions = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
+  // E D A M A M - R E L A T E D 
+  // finds recipes from db where liked = true and origin = edamam
+  findLikedEdamam: function (req, res) {
+    db.Recipe
+      .find({ 'liked': true, 'origin': 'Edamam' }
+      // , { '_id': 0, 'description': 1 }
+    )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findByEdamam: function (req, res) {
     db.Recipe
       .find({ 'name': req.params.name })
@@ -75,6 +86,8 @@ router.get("/api/recipes/search/:user", recipeFunctions.findByUserQuery)
 router.get("/api/recipes/user/:user", recipeFunctions.findByUser)
 
 router.patch("/api/recipes/:id", recipeFunctions.update)
+
+router.get("/api/recipes/search/edamam/liked", recipeFunctions.findLikedEdamam)
 
 router.get("/api/recipes/search/edamam/:name", recipeFunctions.findByEdamam)
 

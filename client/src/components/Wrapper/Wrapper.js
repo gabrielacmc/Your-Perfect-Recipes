@@ -11,7 +11,7 @@ const Wrapper = props =>
 
 
 Wrapper.propTypes = {
-    showCard: PropTypes.string
+    showCard: PropTypes.bool
     // handleBtnClick: PropTypes.func
   }
 

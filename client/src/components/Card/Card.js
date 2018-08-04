@@ -9,7 +9,7 @@ import "./Card.css";
 class Card extends React.Component {
 
   render() {
-    const { image, recipeName, recipeLink, recipeIngredients, showCard, handleBtnClick, like, save, index } = this.props
+    const { image, recipeName, recipeLink, recipeIngredients, handleBtnClick, like, save, index } = this.props
 
     return (
       // fix loading spinner
@@ -94,7 +94,7 @@ Card.propTypes = {
   recipeName: PropTypes.string,
   recipeLink: PropTypes.string,
   recipeIngredients: PropTypes.array,
-  showCard: PropTypes.bool,
+  // showCard: PropTypes.bool,
   handleBtnClick: PropTypes.func,
   like: PropTypes.string,
   save: PropTypes.string
