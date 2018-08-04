@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "./listItem.css";
+import "./SavedCards.css";
 import DeleteBtn from "../../components/DeleteBtn";
 
 

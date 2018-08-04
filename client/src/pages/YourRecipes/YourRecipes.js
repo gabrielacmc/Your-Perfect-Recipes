@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../utils/API";
 import { Col, Row } from "../../components/Grid";
-import { ListItem } from "../../components/List";
+import SavedCards from "../../components/SavedCards";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import "./YourRecipes.css";
 
@@ -206,37 +206,33 @@ class TestPage extends React.Component {
             </Row>
             {this.state.searchRecipes.length ? (
                     <Col size="md-12 sm-12">
-                        {/* <List> */}
                         {this.state.searchRecipes.map(searchRecipes => {
                             return (
-                                <ListItem key={searchRecipes._id}
+                                <SavedCards key={searchRecipes._id}
                                     recipeLink={"/recipes/" + searchRecipes._id}
                                     recipeName={searchRecipes.name}
                                     image = {searchRecipes.image}
                                     recipeIngredients = {searchRecipes.ingredients}
                                     deleteRecipe={() => this.deleteRecipes(searchRecipes._id)}>
-                                </ListItem>
+                                </SavedCards>
 
                             );
                         })}
-                        {/* </List> */}
                     </Col>
             ) : (
                         <Col size="md-12 sm-12">
-                            {/* <List> */}
                             {this.state.recipes.map(recipes => {
                                 return (
-                                    <ListItem key={recipes._id}
+                                    <SavedCards key={recipes._id}
                                         recipeLink={"/recipes/" + recipes._id}
                                         recipeName={recipes.name}
                                         image = {recipes.image}
                                         recipeIngredients = {recipes.ingredients}
                                         deleteRecipe={() => this.deleteRecipes(recipes._id)}>
-                                    </ListItem>
+                                    </SavedCards>
 
                                 );
                             })}
-                            {/* </List> */}
                         </Col>
                 )}
         </div>
