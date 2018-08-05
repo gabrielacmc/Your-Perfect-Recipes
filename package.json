@@ -31,6 +31,7 @@
     "mern": "^0.0.1",
     "mongoose": "^4.11.7",
     "morgan": "^1.9.0",
+    "node": "^10.8.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-firebaseui": "^3.0.4",
